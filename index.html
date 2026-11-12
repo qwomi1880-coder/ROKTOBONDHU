@@ -95,7 +95,7 @@ VIEW.me=()=>{if(!U){$("#app").innerHTML=`<div class="card"><b>লগইন / ন
  const m=ME||{},S={none:"যাচাই হয়নি",pending:"যাচাইয়ের অপেক্ষায়",verified:"✔ যাচাইকৃত",rejected:"বাতিল হয়েছে, আবার জমা দিন"}[m.kyc||"none"];
  $("#app").innerHTML=`<div class="card"><b>আমার তথ্য</b> <span class="tag">${S}</span><input id="mn" placeholder="নাম" value="${esc(m.name)}"><input id="mp" inputmode="tel" placeholder="মোবাইল নম্বর" value="${esc(m.phone)}"><select id="mb">${bgOpts()}</select>${geoHTML("m")}<input id="ma" placeholder="এলাকা" value="${esc(m.area)}"><label>সর্বশেষ রক্তদান</label><input id="ml" type="date" value="${m.last_donated||""}"><button class="btn" onclick="saveMe()">সংরক্ষণ</button></div>
  ${m.kyc==="verified"||m.kyc==="pending"?"":`<div class="card"><b>পরিচয় যাচাই</b><label>এনআইডি সামনে</label><input id="n1" type="file" accept="image/*"><label>এনআইডি পেছনে</label><input id="n2" type="file" accept="image/*"><label>এনআইডি হাতে সেলফি</label><input id="sf" type="file" accept="image/*" capture="user"><button class="btn g" onclick="kyc()">যাচাইয়ের জন্য জমা দিন</button><p class="mu">ছবি প্রাইভেট স্টোরেজে থাকে, শুধু অ্যাডমিন দেখে এবং অনুমোদনের পর মুছে ফেলা হয়।</p></div>`}
- <button class="btn" style="background:var(--mu)" onclick="SB.auth.signOut().then(load)">লগআউট</button>`;wireGeo("m",0);$("#mb").value=m.blood||"A+"};
+ <button class="btn" style="background:var(--mu)" onclick="SB.auth.signOut().then(load)">লগআউট</button><button class="btn" style="background:none;color:var(--rd);border:1px solid var(--rd)" onclick="delAcc()">অ্যাকাউন্ট ও তথ্য মুছুন</button>`;wireGeo("m",0);$("#mb").value=m.blood||"A+"};
 async function auth(n){const c={email:v("em"),password:v("pw")};const r=n?await SB.auth.signUp(c):await SB.auth.signInWithPassword(c);if(ok(r)){toast(n?"অ্যাকাউন্ট হয়েছে":"স্বাগতম");load()}}
 async function saveMe(){const p={id:U.id,name:v("mn"),phone:v("mp"),blood:v("mb"),district_id:+v("mz")||null,upazila_id:+v("mu")||null,area:v("ma"),last_donated:v("ml")||null};
  if(!p.name||!/^(\+?88)?01[3-9]\d{8}$/.test(p.phone))return toast("নাম ও সঠিক মোবাইল নম্বর দিন");if(ok(await SB.from("profiles").upsert(p))){toast("সংরক্ষিত");load()}}
@@ -115,6 +115,7 @@ async function setD(id,s){await SB.from("donations").update({status:s}).eq("id",
 async function tg(t,id,a){await SB.from(t).update({active:a}).eq("id",id);VIEW.adm()}
 async function del(t,id){if(confirm("মুছবেন?")){await SB.from(t).delete().eq("id",id);VIEW.adm()}}
 async function add(t){const o={active:true};for(const k of K[t]){const x=prompt(k);if(x===null)return;o[k]=x}if(ok(await SB.from(t).insert(o)))VIEW.adm()}
+async function delAcc(){if(confirm("অ্যাকাউন্ট ও সব তথ্য স্থায়ীভাবে মুছে যাবে। নিশ্চিত?")&&ok(await SB.rpc("delete_my_account"))){await SB.auth.signOut();load()}}
 load();
 </script>
 </body>
