@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#b3122b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ROKTOBONDHU">
+<title>ROKTOBONDHU</title>
+<style>
+:root{--bg:#f7f4f2;--sf:#fff;--ink:#1d1a1a;--mu:#6b6464;--ln:#e6dfdb;--rd:#b3122b;--gn:#0f7a4d;--tn:#fbe9ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161213;--sf:#211b1c;--ink:#f3eded;--mu:#a99f9f;--ln:#3a3031;--rd:#ee4a63;--gn:#3ecf8e;--tn:#3a1a20}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;line-height:1.6;max-width:640px;margin-inline:auto;padding:env(safe-area-inset-top) 0 90px}
+header{padding:14px 16px 4px}h1{margin:0;font-size:1.4rem;color:var(--rd)}
+.sos{display:flex;gap:8px;padding:6px 16px}.sos a{flex:1;text-align:center;background:var(--rd);color:#fff;text-decoration:none;padding:10px;border-radius:12px;font-weight:700}
+main{padding:6px 16px}.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px;margin:10px 0}
+label{display:block;font-size:.85rem;color:var(--mu);margin:10px 0 4px}
+select,input,textarea{width:100%;font:inherit;padding:11px;border-radius:10px;border:1px solid var(--ln);background:var(--bg);color:var(--ink);margin-bottom:6px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px;width:100%;background:var(--rd);color:#fff;margin-top:10px;cursor:pointer}
+.btn.g{background:var(--gn)}.btn.s{width:auto;padding:8px 14px;margin:4px 4px 0 0}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.bg{min-width:48px;height:48px;border-radius:50%;background:var(--tn);color:var(--rd);display:grid;place-items:center;font-weight:800}
+.tag{font-size:.75rem;background:var(--tn);color:var(--rd);padding:1px 8px;border-radius:99px}
+.mu{color:var(--mu);font-size:.85rem}.pv{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.pv img{width:100%;height:90px;object-fit:cover;border-radius:8px}
+nav{position:fixed;bottom:0;left:0;right:0;max-width:640px;margin:auto;background:var(--sf);border-top:1px solid var(--ln);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;font:inherit;font-size:.75rem;background:none;border:0;color:var(--mu);padding:8px 0;cursor:pointer}nav button span{display:block;font-size:1.25rem}
+nav button[aria-selected=true]{color:var(--rd);font-weight:700;box-shadow:inset 0 3px var(--rd)}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;display:none;max-width:90%}
+</style>
+</head>
+<body>
+<header><h1>🩸 ROKTOBONDHU</h1></header>
+<div class="sos"><a href="tel:999">🚨 ৯৯৯</a><a href="tel:16263">🏥 ১৬২৬৩</a></div>
+<main id="app"></main><nav id="nav"></nav><div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// ★ Supabase → Project Settings → API থেকে বসান
+const SB=supabase.createClient("YOUR_SUPABASE_URL","YOUR_ANON_KEY");
+const $=s=>document.querySelector(s),BG=["A+","A-","B+","B-","O+","O-","AB+","AB-"];
+let U=null,ME=null,G={d:[],z:[],u:[]},tab="find";const VIEW={};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const toast=t=>{const x=$("#toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",3000)};
+const nm=(a,id)=>(G[a].find(x=>x.id==id)||{}).name||"";const v=i=>$("#"+i).value;
+const bgOpts=a=>(a?'<option value="">সব গ্রুপ</option>':"")+BG.map(b=>`<option>${b}</option>`).join("");
+const geoHTML=p=>`<select id="${p}d"></select><select id="${p}z"></select><select id="${p}u"></select>`;
+function wireGeo(p,all){const d=$("#"+p+"d"),z=$("#"+p+"z"),u=$("#"+p+"u"),o=(a,t)=>(all?`<option value="">${t}</option>`:"")+a.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
+ const fu=()=>u.innerHTML=o(G.u.filter(x=>x.district_id==z.value),"সব থানা/উপজেলা"),fz=()=>{z.innerHTML=o(G.z.filter(x=>x.division_id==d.value),"সব জেলা");fu()};
+ d.innerHTML=o(G.d,"সব বিভাগ");d.onchange=fz;z.onchange=fu;fz()}
+const shrink=f=>new Promise(ok=>{const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const s=Math.min(1,900/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(ok,"image/jpeg",.7)};i.src=r.result};r.readAsDataURL(f)});
+const ok=r=>{if(r.error){toast(r.error.message==="verified_only"?"নম্বর দেখতে আগে আপনার পরিচয় যাচাই করুন":r.error.message);return false}return true};
+
+async function load(){const t=["divisions","districts","upazilas"];const r=await Promise.all(t.map(x=>SB.from(x).select("*").order("name")));
+ G={d:r[0].data||[],z:r[1].data||[],u:r[2].data||[]};const s=(await SB.auth.getSession()).data.session;U=s?.user||null;ME=null;
+ if(U)ME=(await SB.from("profiles").select("*").eq("id",U.id).maybeSingle()).data;go(tab)}
+function go(t){tab=t;const T=[["find","🔍","ডোনার"],["req","🆘","অনুরোধ"],["donate","💝","সহায়তা"],["svc","📞","সেবা"],["me","👤","প্রোফাইল"]];
+ if(ME?.role==="admin")T.push(["adm","🛡️","অ্যাডমিন"]);
+ $("#nav").innerHTML=T.map(x=>`<button aria-selected="${x[0]===t}" onclick="go('${x[0]}')"><span>${x[1]}</span>${x[2]}</button>`).join("");VIEW[t]()}
+
+// ---- ডোনার খোঁজা ----
+VIEW.find=()=>{$("#app").innerHTML=`<div class="card"><select id="fb">${bgOpts(1)}</select>${geoHTML("f")}<input id="fa" placeholder="এলাকার নাম (ঐচ্ছিক)"><button class="btn" onclick="search()">ডোনার খুঁজুন</button></div><div id="out"></div>`;wireGeo("f",1)};
+async function search(){let q=SB.from("donors").select("*").limit(50);
+ if(v("fb"))q=q.eq("blood",v("fb"));if(v("fz"))q=q.eq("district_id",v("fz"));else if(v("fd"))q=q.in("district_id",G.z.filter(x=>x.division_id==v("fd")).map(x=>x.id));
+ if(v("fu"))q=q.eq("upazila_id",v("fu"));if(v("fa").trim())q=q.ilike("area","%"+v("fa").trim()+"%");
+ const r=await q;if(!ok(r))return;
+ $("#out").innerHTML=r.data.length?r.data.map(d=>`<div class="card row"><div class="bg">${d.blood}</div><div style="flex:1"><b>${esc(d.name)}</b> <span class="tag">✔ যাচাইকৃত</span><div class="mu">${esc(d.area||"")} ${nm("u",d.upazila_id)} ${nm("z",d.district_id)}</div></div><div><button class="btn s g" onclick="phone('${d.id}',this)">নম্বর</button><button class="btn s" style="background:var(--mu)" onclick="rep('${d.id}')">⚑</button></div></div>`).join(""):'<div class="card mu">এই এলাকায় এখনো কোনো যাচাইকৃত ডোনার নেই। পাশের জেলায় খুঁজুন বা জরুরি নম্বরে কল করুন।</div>'}
+async function phone(id,b){if(!U)return toast("নম্বর দেখতে লগইন করুন");const r=await SB.rpc("get_phone",{uid:id});if(ok(r))b.outerHTML=`<a class="btn s g" style="text-decoration:none;display:inline-block" href="tel:${esc(r.data)}">${esc(r.data)}</a>`}
+async function rep(id){if(!U)return toast("রিপোর্ট করতে লগইন করুন");const w=prompt("সমস্যা কী? (যেমন: ভুয়া, টাকা চেয়েছে)");if(w&&ok(await SB.rpc("report_user",{uid:id,w})))toast("রিপোর্ট জমা হয়েছে")}
+
+// ---- রক্তের অনুরোধ ----
+VIEW.req=async()=>{const r=await SB.from("requests").select("*").eq("status","open").order("created_at",{ascending:false}).limit(30);
+ const form=U?`<div class="card"><b>জরুরি রক্তের অনুরোধ</b><input id="rpn" placeholder="রোগীর নাম"><select id="rb">${bgOpts()}</select><input id="rbag" type="number" min="1" placeholder="কত ব্যাগ"><input id="rh" placeholder="হাসপাতালের নাম"><input id="rw" placeholder="কখন লাগবে (যেমন: আজ রাত ৯টা)">${geoHTML("r")}<input id="rc" inputmode="tel" placeholder="যোগাযোগের নম্বর"><textarea id="rn" placeholder="বিস্তারিত"></textarea><button class="btn" onclick="postReq()">অনুরোধ পোস্ট করুন</button></div>`:'<div class="card mu">অনুরোধ করতে প্রোফাইল ট্যাবে লগইন করুন।</div>';
+ $("#app").innerHTML=form+(r.error?"":(r.data||[]).map(x=>`<div class="card"><div class="row"><div class="bg">${x.blood}</div><div style="flex:1"><b>${esc(x.hospital)}</b> · ${x.bags} ব্যাগ<div class="mu">${esc(x.needed_at||"")} · ${nm("u",x.upazila_id)} ${nm("z",x.district_id)}</div></div><a class="btn s g" style="text-decoration:none" href="tel:${esc(x.contact_phone)}">কল</a></div>${esc(x.note||"")}${x.user_id===U?.id?`<button class="btn s" onclick="closeReq(${x.id})">পূর্ণ হয়েছে</button>`:""}</div>`).join(""));if(U)wireGeo("r",0)};
+async function postReq(){const p={patient:v("rpn"),blood:v("rb"),bags:+v("rbag"),hospital:v("rh"),needed_at:v("rw"),district_id:+v("rz")||null,upazila_id:+v("ru")||null,contact_phone:v("rc"),note:v("rn")};
+ if(!p.hospital||!p.bags||!/^(\+?88)?01[3-9]\d{8}$/.test(p.contact_phone))return toast("হাসপাতাল, ব্যাগ ও সঠিক নম্বর দিন");if(ok(await SB.from("requests").insert(p))){toast("পোস্ট হয়েছে");VIEW.req()}}
+async function closeReq(id){await SB.from("requests").update({status:"done"}).eq("id",id);VIEW.req()}
+
+// ---- আর্থিক সহায়তা ----
+VIEW.donate=async()=>{const[m,f]=await Promise.all([SB.from("payment_methods").select("*").eq("active",true).order("sort"),SB.from("fund_total").select("total").single()]);const M=m.data||[];
+ $("#app").innerHTML=`<div class="card"><b>সার্ভার ও ডাটাবেস খরচে সহায়তা করুন</b><p class="mu">অ্যাপ সবার জন্য বিনামূল্যে। আপনার দান শুধু সার্ভার ও রক্ষণাবেক্ষণে ব্যয় হবে।</p>সংগৃহীত: <b>৳${f.data?.total??0}</b></div>
+ ${M.map(x=>`<div class="card row"><div><b>${esc(x.name)}</b><div>${esc(x.number)}</div><div class="mu">${esc(x.instructions||"")}</div></div><button class="btn s" onclick="navigator.clipboard?.writeText('${esc(x.number)}');toast('কপি হয়েছে')">কপি</button></div>`).join("")||'<div class="card mu">শীঘ্রই চালু হবে।</div>'}
+ ${U&&M.length?`<div class="card"><b>পাঠানোর পর তথ্য দিন</b><select id="dm">${M.map(x=>`<option>${esc(x.name)}</option>`).join("")}</select><input id="da" type="number" placeholder="পরিমাণ (৳)"><input id="dt" placeholder="ট্রানজ্যাকশন আইডি (TrxID)"><button class="btn g" onclick="sendDon()">জমা দিন</button></div>`:""}`};
+async function sendDon(){if(!v("da")||!v("dt").trim())return toast("পরিমাণ ও TrxID দিন");if(ok(await SB.from("donations").insert({name:ME?.name,amount:+v("da"),method:v("dm"),trx_id:v("dt").trim()})))toast("ধন্যবাদ! অ্যাডমিন যাচাই করবেন")}
+
+// ---- সেবা ----
+VIEW.svc=async()=>{const r=await SB.from("emergency_numbers").select("*").eq("active",true).order("sort");
+ $("#app").innerHTML=(r.data||[]).map(x=>`<div class="card row"><div><b>${esc(x.number)}</b><div class="mu">${esc(x.label)}</div></div><a class="btn s" style="text-decoration:none" href="tel:${esc(x.number)}">কল</a></div>`).join("")+
+ `<div class="card"><b>কাছের সেবা (গুগল ম্যাপ)</b>${[["hospital","🏥 হাসপাতাল"],["fire station","🚒 ফায়ার স্টেশন"],["ambulance service","🚑 অ্যাম্বুলেন্স"],["blood bank","🩸 ব্লাড ব্যাংক"]].map(x=>`<button class="btn" onclick="near('${x[0]}')">${x[1]}</button>`).join("")}</div>`};
+function near(q){const o=c=>window.open("https://www.google.com/maps/search/"+encodeURIComponent(q)+(c?`/@${c.latitude},${c.longitude},14z`:""),"_blank");
+ navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>o(p.coords),()=>o(),{timeout:6000}):o()}
+
+// ---- প্রোফাইল ও যাচাই ----
+VIEW.me=()=>{if(!U){$("#app").innerHTML=`<div class="card"><b>লগইন / নতুন অ্যাকাউন্ট</b><input id="em" type="email" placeholder="ইমেইল" autocomplete="email"><input id="pw" type="password" placeholder="পাসওয়ার্ড (৬+ অক্ষর)"><button class="btn" onclick="auth(0)">লগইন</button><button class="btn g" onclick="auth(1)">নতুন অ্যাকাউন্ট</button></div>`;return}
+ const m=ME||{},S={none:"যাচাই হয়নি",pending:"যাচাইয়ের অপেক্ষায়",verified:"✔ যাচাইকৃত",rejected:"বাতিল হয়েছে, আবার জমা দিন"}[m.kyc||"none"];
+ $("#app").innerHTML=`<div class="card"><b>আমার তথ্য</b> <span class="tag">${S}</span><input id="mn" placeholder="নাম" value="${esc(m.name)}"><input id="mp" inputmode="tel" placeholder="মোবাইল নম্বর" value="${esc(m.phone)}"><select id="mb">${bgOpts()}</select>${geoHTML("m")}<input id="ma" placeholder="এলাকা" value="${esc(m.area)}"><label>সর্বশেষ রক্তদান</label><input id="ml" type="date" value="${m.last_donated||""}"><button class="btn" onclick="saveMe()">সংরক্ষণ</button></div>
+ ${m.kyc==="verified"||m.kyc==="pending"?"":`<div class="card"><b>পরিচয় যাচাই</b><label>এনআইডি সামনে</label><input id="n1" type="file" accept="image/*"><label>এনআইডি পেছনে</label><input id="n2" type="file" accept="image/*"><label>এনআইডি হাতে সেলফি</label><input id="sf" type="file" accept="image/*" capture="user"><button class="btn g" onclick="kyc()">যাচাইয়ের জন্য জমা দিন</button><p class="mu">ছবি প্রাইভেট স্টোরেজে থাকে, শুধু অ্যাডমিন দেখে এবং অনুমোদনের পর মুছে ফেলা হয়।</p></div>`}
+ <button class="btn" style="background:var(--mu)" onclick="SB.auth.signOut().then(load)">লগআউট</button>`;wireGeo("m",0);$("#mb").value=m.blood||"A+"};
+async function auth(n){const c={email:v("em"),password:v("pw")};const r=n?await SB.auth.signUp(c):await SB.auth.signInWithPassword(c);if(ok(r)){toast(n?"অ্যাকাউন্ট হয়েছে":"স্বাগতম");load()}}
+async function saveMe(){const p={id:U.id,name:v("mn"),phone:v("mp"),blood:v("mb"),district_id:+v("mz")||null,upazila_id:+v("mu")||null,area:v("ma"),last_donated:v("ml")||null};
+ if(!p.name||!/^(\+?88)?01[3-9]\d{8}$/.test(p.phone))return toast("নাম ও সঠিক মোবাইল নম্বর দিন");if(ok(await SB.from("profiles").upsert(p))){toast("সংরক্ষিত");load()}}
+async function kyc(){if(!ME)return toast("আগে তথ্য সংরক্ষণ করুন");const f=["n1","n2","sf"].map(i=>$("#"+i).files[0]);if(f.some(x=>!x))return toast("তিনটি ছবিই দিন");
+ for(let i=0;i<3;i++)if(!ok(await SB.storage.from("kyc").upload(`${U.id}/${i}.jpg`,await shrink(f[i]),{upsert:true,contentType:"image/jpeg"})))return;
+ if(ok(await SB.rpc("submit_kyc"))){toast("জমা হয়েছে");load()}}
+
+// ---- অ্যাডমিন প্যানেল ----
+const K={payment_methods:["name","number","instructions"],emergency_numbers:["label","number"]};
+VIEW.adm=async()=>{const[p,d,pm,en]=await Promise.all([SB.from("profiles").select("*").eq("kyc","pending"),SB.from("donations").select("*").eq("status","pending").order("created_at"),SB.from("payment_methods").select("*").order("sort"),SB.from("emergency_numbers").select("*").order("sort")]);
+ let kh="";for(const x of p.data||[]){const s=await SB.storage.from("kyc").createSignedUrls([0,1,2].map(i=>`${x.id}/${i}.jpg`),300);
+  kh+=`<div class="card"><b>${esc(x.name)}</b> · ${x.blood} · ${esc(x.phone)}<div class="pv">${(s.data||[]).map(u=>`<img src="${u.signedUrl}" alt="">`).join("")}</div><button class="btn s g" onclick="setK('${x.id}','verified')">অনুমোদন</button><button class="btn s" onclick="setK('${x.id}','rejected')">বাতিল</button></div>`}
+ const ed=(t,R)=>`<div class="card"><b>${t==="payment_methods"?"পেমেন্ট মাধ্যম":"জরুরি নম্বর"}</b>${(R.data||[]).map(r=>`<div class="row"><span>${esc(r[K[t][0]])} · ${esc(r[K[t][1]])}</span><span><button class="btn s" onclick="tg('${t}',${r.id},${!r.active})">${r.active?"চালু":"বন্ধ"}</button><button class="btn s" style="background:var(--mu)" onclick="del('${t}',${r.id})">✕</button></span></div>`).join("")}<button class="btn g" onclick="add('${t}')">+ যোগ করুন</button></div>`;
+ $("#app").innerHTML=`<div class="card"><b>যাচাইয়ের অপেক্ষায়: ${(p.data||[]).length}</b></div>${kh}<div class="card"><b>দান যাচাই: ${(d.data||[]).length}</b>${(d.data||[]).map(x=>`<div class="row"><span>${esc(x.name)} · ৳${x.amount} · ${esc(x.method)} · ${esc(x.trx_id)}</span><span><button class="btn s g" onclick="setD(${x.id},'confirmed')">✔</button><button class="btn s" onclick="setD(${x.id},'rejected')">✕</button></span></div>`).join("")}</div>${ed("payment_methods",pm)}${ed("emergency_numbers",en)}`};
+async function setK(id,s){if(!ok(await SB.rpc("admin_set_kyc",{uid:id,s})))return;await SB.storage.from("kyc").remove([0,1,2].map(i=>`${id}/${i}.jpg`));VIEW.adm()}
+async function setD(id,s){await SB.from("donations").update({status:s}).eq("id",id);VIEW.adm()}
+async function tg(t,id,a){await SB.from(t).update({active:a}).eq("id",id);VIEW.adm()}
+async function del(t,id){if(confirm("মুছবেন?")){await SB.from(t).delete().eq("id",id);VIEW.adm()}}
+async function add(t){const o={active:true};for(const k of K[t]){const x=prompt(k);if(x===null)return;o[k]=x}if(ok(await SB.from(t).insert(o)))VIEW.adm()}
+load();
+</script>
+</body>
+</html>
