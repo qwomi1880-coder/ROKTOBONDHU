@@ -36,7 +36,7 @@ nav button[aria-selected=true]{color:var(--rd);font-weight:700;box-shadow:inset 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 // ★ Supabase → Project Settings → API থেকে বসান
-const SB=supabase.createClient("YOUR_SUPABASE_URL","YOUR_ANON_KEY");
+const SB=supabase.createClient("https://szgyfrktlgjcccgchjsx.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Z3lmcmt0bGdqY2NjZ2NoanN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NjQ1MTEsImV4cCI6MjExMDA0MDUxMX0.4wyZMH-fJV8Ii5XLnUzo3ZROt2uDCvfJkZR8AwHNrnQ");
 const $=s=>document.querySelector(s),BG=["A+","A-","B+","B-","O+","O-","AB+","AB-"];
 let U=null,ME=null,G={d:[],z:[],u:[]},tab="find";const VIEW={};
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
