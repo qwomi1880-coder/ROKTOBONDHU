@@ -1,1 +1,1 @@
-window.RB={url:"https://szgyfrktlgjcccgchjsx.supabase.co",key:"YOUR_ANON_KEY"};
+window.RB={url:"https://szgyfrktlgjcccgchjsx.supabase.co",key:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Z3lmcmt0bGdqY2NjZ2NoanN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NjQ1MTEsImV4cCI6MjExMDA0MDUxMX0.4wyZMH-fJV8Ii5XLnUzo3ZROt2uDCvfJkZR8AwHNrnQ"};
