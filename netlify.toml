@@ -7,3 +7,8 @@
     Referrer-Policy = "no-referrer"
     Permissions-Policy = "geolocation=(self), microphone=()"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://szgyfrktlgjcccgchjsx.supabase.co; connect-src 'self' https://szgyfrktlgjcccgchjsx.supabase.co wss://szgyfrktlgjcccgchjsx.supabase.co; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

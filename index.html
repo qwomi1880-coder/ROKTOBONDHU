@@ -6,6 +6,10 @@
 <meta name="theme-color" content="#c8102e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ROKTOBONDHU">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <title>রক্তবন্ধু – ROKTOBONDHU</title>
 <style>
 :root{--bg:#fbf4f4;--sf:#fff;--ink:#241a1c;--mu:#7a6e70;--ln:#efe3e4;--rd:#c8102e;--rd2:#8f0b20;--gn:#0f8a55;--tn:#fde8eb;--sh:0 2px 10px rgba(120,20,40,.08)}
@@ -107,7 +111,7 @@ VIEW.home=()=>{const T=[["req","🆘","জরুরি রক্তের অন
  $("#app").innerHTML=`<div class="top">${logo(26)}<b>রক্তবন্ধু</b><span onclick="go('notif')" style="font-size:1.4rem">🔔${NC?`<sup style="color:var(--rd)">${NC}</sup>`:""}</span></div>
  <section class="hero"><h2>রক্ত দিন,<br>জীবন বাঁচান</h2><input placeholder="🔍 জেলা/থানা/এলাকা খুঁজুন…" onkeydown="if(event.key==='Enter'){QS=this.value;go('find')}"></section>
  ${ME&&ME.is_donor&&ME.kyc!=="verified"?`<div class="card un" onclick="go('${ME.kyc==="pending"?"me":"kyc"}')"><b>${ME.kyc==="pending"?"⏳ যাচাই চলছে":"🛡️ ফেস ভেরিফিকেশন সম্পন্ন করুন"}</b><div class="mu">${ME.kyc==="pending"?"অনুমোদনের পর আপনি ডোনার তালিকায় আসবেন।":"সেলফি দিয়ে মুখ যাচাই করলে আপনি ডোনার তালিকায় আসবেন।"}</div></div>`:""}
- <div class="tiles">${T.map(x=>`<button onclick="go('${x[0]}')"><span>${x[1]}</span>${x[2]}</button>`).join("")}</div>`};
+ ${instCard()}<div class="tiles">${T.map(x=>`<button onclick="go('${x[0]}')"><span>${x[1]}</span>${x[2]}</button>`).join("")}</div>`};
 
 const dc=d=>{DN[d.id]=d;return `<div class="card row" onclick="openDonor('${d.id}')">${avh(d.id,d.name)}<div class="f1"><b>${esc(d.name)}</b> <span class="bd">${d.blood}</span><div class="mu">📍 ${esc(d.area||"")} ${esc(loc(d))}</div><div class="mu">🩸 শেষ দান: ${fd(d.last_donated)}${d.last_donated?" · পরবর্তী: "+fd(d.next_date):""}</div>${d.ready?'<span class="tg g">● দিতে প্রস্তুত</span>':'<span class="tg o">এখন দিতে পারবেন না</span>'}</div><span style="font-size:1.4rem">›</span></div>`};
 VIEW.find=()=>{$("#app").innerHTML=`${hdr("ডোনার খুঁজুন","home")}<div class="card">${chips("fb")}<div style="height:8px"></div>${geoHTML("f")}<input id="fa" placeholder="গ্রাম/মহল্লা/এলাকা (ঐচ্ছিক)" value="${esc(QS)}"><button class="btn" onclick="search()">🔍 খুঁজুন</button></div><div id="out"></div>`;QS="";wireChips("fb");wireGeo("f",1);search()};
@@ -163,6 +167,16 @@ async function kyc(){if(!KB)return toast("আগে সেলফি তুলু
  if(ok(await SB.rpc("submit_kyc"))){toast("জমা হয়েছে, অ্যাডমিন যাচাই করবেন");await refresh();go("me")}}
 async function delAcc(){if(confirm("অ্যাকাউন্ট ও সব তথ্য স্থায়ীভাবে মুছে যাবে। নিশ্চিত?")&&ok(await SB.rpc("delete_my_account"))){await SB.auth.signOut();CH=null;after()}}
 
+let DP=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();DP=e;if(tab==="home")go("home")});
+window.addEventListener("appinstalled",()=>{DP=null;toast("অ্যাপ ইনস্টল হয়েছে");if(tab==="home")go("home")});
+const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+function instCard(){if(standalone())return "";
+ if(DP)return `<div class="card row"><div class="f1"><b>📲 ফোনে অ্যাপ হিসেবে ইনস্টল করুন</b><div class="mu">হোম স্ক্রিন থেকে এক ট্যাপে খুলুন</div></div><button class="btn s" onclick="inst()">ইনস্টল</button></div>`;
+ if(isIOS())return `<div class="card"><b>📲 আইফোনে ইনস্টল করুন</b><div class="mu">Safari-তে খুলে নিচের <b>শেয়ার ⬆️</b> বাটনে চাপুন → <b>Add to Home Screen</b> → <b>Add</b>।</div></div>`;
+ return `<div class="card"><b>📲 অ্যাপ ইনস্টল করুন</b><div class="mu">Chrome-এর ⋮ মেনু → <b>Install app</b> বা <b>Add to Home screen</b>।</div></div>`}
+async function inst(){if(!DP)return;DP.prompt();await DP.userChoice;DP=null;go("home")}
+if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 boot();
 </script>
 </body>
