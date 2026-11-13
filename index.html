@@ -11,142 +11,148 @@
 :root{--bg:#fbf4f4;--sf:#fff;--ink:#241a1c;--mu:#7a6e70;--ln:#efe3e4;--rd:#c8102e;--rd2:#8f0b20;--gn:#0f8a55;--tn:#fde8eb;--sh:0 2px 10px rgba(120,20,40,.08)}
 @media(prefers-color-scheme:dark){:root{--bg:#150f10;--sf:#211a1b;--ink:#f6eeee;--mu:#ae9fa1;--ln:#3a2e30;--rd:#ef4a62;--tn:#3b1b21;--gn:#3ecf8e;--sh:none}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;line-height:1.55;max-width:560px;margin-inline:auto;padding:env(safe-area-inset-top) 0 92px}
-.top{display:flex;align-items:center;gap:8px;padding:12px 16px}.top b{font-size:1.25rem;color:var(--rd)}.top small{display:block;color:var(--mu);font-size:.7rem;margin-top:-6px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;line-height:1.55;max-width:560px;margin-inline:auto;padding:env(safe-area-inset-top) 0 90px;min-height:100vh}
 main{padding:0 16px}.card{background:var(--sf);border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--sh);border:1px solid var(--ln)}
-.hero{background:linear-gradient(135deg,var(--rd),var(--rd2));color:#fff;border-radius:22px;padding:22px 18px;margin:6px 0}.hero h2{margin:0 0 4px;font-size:1.7rem;line-height:1.25}.hero p{margin:0 0 14px;opacity:.9}
-.hero button{font:inherit;font-weight:700;border-radius:99px;padding:10px 18px;margin-right:8px;border:2px solid #fff;cursor:pointer;background:#fff;color:var(--rd2)}.hero .o{background:none;color:#fff}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats div{background:var(--sf);border-radius:16px;padding:12px;text-align:center;box-shadow:var(--sh);border:1px solid var(--ln);color:var(--mu);font-size:.85rem}.stats b{display:block;font-size:1.6rem;color:var(--rd)}
+.sp{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}.sp h1{margin:6px 0 0;font-size:2.4rem;color:var(--rd)}.sp small{letter-spacing:2px;font-weight:700}
+.ld{width:26px;height:26px;border:3px solid var(--tn);border-top-color:var(--rd);border-radius:50%;animation:r 1s linear infinite;margin-top:30px}@keyframes r{to{transform:rotate(360deg)}}
+.il{font-size:5rem;background:var(--tn);border-radius:50%;width:170px;height:170px;display:grid;place-items:center;margin-bottom:12px}
+.dots{display:flex;gap:6px;justify-content:center;margin:10px}.dots i{width:8px;height:8px;border-radius:50%;background:var(--ln)}.dots i:first-child{background:var(--rd)}
+.top{display:flex;align-items:center;gap:8px;padding:12px 16px}.top b{font-size:1.2rem;color:var(--rd);flex:1}
+.hd{display:flex;align-items:center;gap:10px;padding:12px 16px;font-weight:700;font-size:1.1rem}.hd button{font:inherit;background:var(--sf);border:1px solid var(--ln);border-radius:50%;width:38px;height:38px;color:var(--ink)}
+.hero{background:linear-gradient(135deg,var(--rd),var(--rd2));color:#fff;border-radius:22px;padding:20px 18px;margin:6px 0}.hero h2{margin:0 0 10px;font-size:1.6rem;line-height:1.25}
+.hero input{margin:0;border:0}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.tiles button{font:inherit;background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:16px 8px;color:var(--ink);box-shadow:var(--sh);font-weight:600;cursor:pointer}.tiles span{display:block;font-size:1.7rem}
 label{display:block;font-size:.82rem;color:var(--mu);margin:10px 0 4px}
-select,input,textarea{width:100%;font:inherit;padding:11px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--ink);margin-bottom:6px}
-.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.chips button{font:inherit;font-weight:700;padding:9px 0;border-radius:12px;border:1.5px solid var(--ln);background:var(--sf);color:var(--ink)}.chips button.on{background:var(--rd);border-color:var(--rd);color:#fff}
-.btn{font:inherit;font-weight:700;border:0;border-radius:14px;padding:12px;width:100%;background:var(--rd);color:#fff;margin-top:10px;cursor:pointer;text-decoration:none;display:block;text-align:center}.btn.s{display:inline-block;width:auto;padding:8px 14px;margin:6px 6px 0 0}.btn.g{background:var(--gn)}.btn.m{background:var(--mu)}
+select,input,textarea{width:100%;font:inherit;padding:12px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--ink);margin-bottom:6px}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.chips button,.seg button{font:inherit;font-weight:700;padding:9px 0;border-radius:12px;border:1.5px solid var(--ln);background:var(--sf);color:var(--ink)}.chips button.on,.seg button.on{background:var(--rd);border-color:var(--rd);color:#fff}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:14px;padding:13px;width:100%;background:var(--rd);color:#fff;margin-top:10px;cursor:pointer;text-decoration:none;display:block;text-align:center}.btn.s{display:inline-block;width:auto;padding:8px 14px;margin:6px 6px 0 0}.btn.g{background:var(--gn)}.btn.m{background:var(--mu)}.btn.o{background:none;color:var(--rd);border:1.5px solid var(--rd)}
 .row{display:flex;gap:12px;align-items:center}.f1{flex:1;min-width:0}.mu{color:var(--mu);font-size:.82rem}
-.av{width:48px;height:48px;border-radius:50%;background:var(--tn);color:var(--rd);display:grid;place-items:center;font-weight:800;font-size:1.2rem;flex:none}
+.av{width:48px;height:48px;border-radius:50%;background:var(--tn);color:var(--rd);display:grid;place-items:center;font-weight:800;font-size:1.2rem;flex:none}.av.l{width:96px;height:96px;font-size:2.4rem;margin:0 auto}
 .bd,.bg2{background:var(--rd);color:#fff;border-radius:8px;padding:0 8px;font-weight:700;font-size:.85rem}.bg2{font-size:1.2rem;padding:8px 10px;border-radius:12px}
 .tg{font-size:.75rem;padding:1px 9px;border-radius:99px;display:inline-block;margin-top:2px}.tg.g{background:#dff5ea;color:#0b6b43}.tg.o{background:#fff0d8;color:#946200}.tg.v{background:var(--tn);color:var(--rd)}
-.call{width:44px;height:44px;border-radius:50%;background:var(--gn);display:grid;place-items:center;text-decoration:none;font-size:1.2rem;flex:none}
 .pv{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.pv img{width:100%;height:90px;object-fit:cover;border-radius:8px}
 .empty{text-align:center;color:var(--mu);padding:24px 8px}h3{margin:14px 0 4px}
-nav{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:auto;background:var(--sf);border-top:1px solid var(--ln);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.mi{display:flex;justify-content:space-between;padding:13px 4px;border-bottom:1px solid var(--ln);cursor:pointer}
+nav{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:auto;background:var(--sf);border-top:1px solid var(--ln);display:none;padding-bottom:env(safe-area-inset-bottom)}
 nav button{flex:1;font:inherit;font-size:.72rem;background:none;border:0;color:var(--mu);padding:8px 0;cursor:pointer;position:relative}nav button span{display:block;font-size:1.3rem}
 nav button.on{color:var(--rd);font-weight:700}nav button.on::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;background:var(--rd);border-radius:0 0 4px 4px}
 nav i{position:absolute;top:2px;right:26%;background:var(--rd);color:#fff;font-style:normal;font-size:.65rem;border-radius:99px;padding:0 5px}
-#toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;display:none;max-width:90%;z-index:9}
-.un{border-left:4px solid var(--rd)}
+#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;display:none;max-width:90%;z-index:9}.un{border-left:4px solid var(--rd)}
 </style>
 </head>
 <body>
-<div class="top"><div style="font-size:1.8rem">🩸</div><div><b>রক্তবন্ধু</b><small>ROKTOBONDHU</small></div></div>
 <main id="app"></main><nav id="nav"></nav><div id="toast"></div>
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 window.onerror=m=>{const a=document.getElementById("app");if(a)a.innerHTML="<pre style='color:orange;white-space:pre-wrap'>"+m+"</pre>"};
 const SB=supabase.createClient(window.RB.url,window.RB.key);
-const $=s=>document.querySelector(s),v=i=>$("#"+i).value,BG=["A+","A-","B+","B-","O+","O-","AB+","AB-"];
-let U=null,ME=null,G={d:[],z:[],u:[]},tab="home",NC=0,OTPE=null,REQ={},CH=null;const VIEW={};
+const $=s=>document.querySelector(s),v=i=>$("#"+i).value,BG=["A+","A-","B+","B-","O+","O-","AB+","AB-"],MAIN=["home","req","notif","me"];
+let U=null,ME=null,G={d:[],z:[],u:[]},tab="splash",BACK="home",NC=0,REQ={},DN={},CH=null,LT="m",ROLE="donor",KT="nid",QS="";const VIEW={};
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const toast=t=>{const x=$("#toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",3200)};
 const nm=(a,id)=>(G[a].find(x=>x.id==id)||{}).name||"";
+const loc=x=>[nm("u",x.upazila_id),nm("z",x.district_id)].filter(Boolean).join(", ");
 const fd=d=>d?new Date(d).toLocaleDateString("bn-BD",{day:"numeric",month:"short",year:"numeric"}):"—";
-const PH=/^(\+?88)?01[3-9]\d{8}$/;
+const np=s=>{s=String(s).replace(/[\s-]/g,"").replace(/^\+?88/,"");return /^01[3-9]\d{8}$/.test(s)?s:null},pe=p=>"88"+p+"@phone.roktobondhu.app";
 const ok=r=>{if(r.error){toast(r.error.message);return false}return true};
-const chips=(id)=>`<div class="chips" id="${id}">${BG.map(b=>`<button type="button">${b}</button>`).join("")}</div>`;
-function wireChips(id,one){const el=$("#"+id);el.onclick=e=>{const b=e.target.closest("button");if(!b)return;const on=b.classList.contains("on");el.querySelectorAll("button").forEach(x=>x.classList.remove("on"));if(!on||one)b.classList.add("on")}}
-const chip=id=>($("#"+id+" .on")||{}).textContent||"";
-const setChip=(id,val)=>$("#"+id).querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.textContent===val));
+const hdr=(t,b)=>`<div class="hd"><button onclick="go('${b||BACK}')" aria-label="পিছনে">←</button>${t}</div>`;
+const logo=s=>`<svg viewBox="0 0 64 80" width="${s}"><path d="M32 2C32 2 6 34 6 52a26 26 0 0052 0C58 34 32 2 32 2z" fill="#c8102e"/><path d="M32 60s-13-8-13-17a7 7 0 0113-3 7 7 0 0113 3c0 9-13 17-13 17z" fill="#fff"/></svg>`;
+const chips=id=>`<div class="chips" id="${id}">${BG.map(b=>`<button type="button">${b}</button>`).join("")}</div>`;
+function wireChips(id){const el=$("#"+id);el.onclick=e=>{const b=e.target.closest("button");if(!b)return;const on=b.classList.contains("on");el.querySelectorAll("button").forEach(x=>x.classList.remove("on"));if(!on)b.classList.add("on")}}
+const chip=id=>($("#"+id+" .on")||{}).textContent||"",setChip=(id,val)=>$("#"+id).querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.textContent===val));
 const geoHTML=p=>`<select id="${p}d"></select><select id="${p}z"></select><select id="${p}u"></select>`;
 function wireGeo(p,all){const d=$("#"+p+"d"),z=$("#"+p+"z"),u=$("#"+p+"u"),o=(a,t)=>(all?`<option value="">${t}</option>`:"")+a.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
- const fu=()=>u.innerHTML=o(G.u.filter(x=>x.district_id==z.value),"সব থানা/উপজেলা"),fz=()=>{z.innerHTML=o(G.z.filter(x=>x.division_id==d.value),"সব জেলা");fu()};
- d.innerHTML=o(G.d,"সব বিভাগ");d.onchange=fz;z.onchange=fu;fz()}
-const shrink=f=>new Promise(r=>{const fr=new FileReader();fr.onload=()=>{const i=new Image();i.onload=()=>{const s=Math.min(1,900/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(r,"image/jpeg",.7)};i.src=fr.result};fr.readAsDataURL(f)});
+ const fu=()=>u.innerHTML=o(G.u.filter(x=>x.district_id==z.value),"সব থানা/উপজেলা"),fz=()=>{z.innerHTML=o(G.z.filter(x=>x.division_id==d.value),"সব জেলা");fu()};d.innerHTML=o(G.d,"সব বিভাগ");d.onchange=fz;z.onchange=fu;fz()}
+const shrink=f=>new Promise(r=>{const fr=new FileReader();fr.onload=()=>{const i=new Image();i.onload=()=>{const s=Math.min(1,1000/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(r,"image/jpeg",.7)};i.src=fr.result};fr.readAsDataURL(f)});
 
-async function load(){const r=await Promise.all(["divisions","districts","upazilas"].map(t=>SB.from(t).select("*").order("name")));
- G={d:r[0].data||[],z:r[1].data||[],u:r[2].data||[]};U=(await SB.auth.getSession()).data.session?.user||null;ME=null;NC=0;
- if(U){ME=(await SB.from("profiles").select("*").eq("id",U.id).maybeSingle()).data;
-  NC=(await SB.from("notifications").select("id",{count:"exact",head:true}).eq("read",false)).count||0;listen()}
- go(tab)}
-function listen(){if(CH||!U)return;CH=SB.channel("n"+U.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"user_id=eq."+U.id},p=>{NC++;toast("🔔 "+p.new.title);
- try{if(Notification.permission==="granted")new Notification(p.new.title,{body:p.new.body})}catch(e){}go(tab)}).subscribe()}
-function go(t){tab=t;const T=[["home","🏠","হোম"],["find","🔍","খুঁজুন"],["req","🆘","অনুরোধ"],["notif","🔔","নোটিফিকেশন"],["me","👤","প্রোফাইল"]];
- $("#nav").innerHTML=T.map(x=>`<button class="${x[0]===t?"on":""}" onclick="go('${x[0]}')"><span>${x[1]}</span>${x[2]}${x[0]==="notif"&&NC?`<i>${NC}</i>`:""}</button>`).join("");window.scrollTo(0,0);VIEW[t]()}
+async function refresh(){if(!G.d.length){const r=await Promise.all(["divisions","districts","upazilas"].map(t=>SB.from(t).select("*").order("name")));G={d:r[0].data||[],z:r[1].data||[],u:r[2].data||[]}}
+ U=(await SB.auth.getSession()).data.session?.user||null;ME=null;NC=0;
+ if(U){ME=(await SB.from("profiles").select("*").eq("id",U.id).maybeSingle()).data;NC=(await SB.from("notifications").select("id",{count:"exact",head:true}).eq("read",false)).count||0;listen()}}
+function listen(){if(CH||!U)return;CH=SB.channel("n"+U.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"user_id=eq."+U.id},p=>{NC++;toast("🔔 "+p.new.title);try{if(Notification.permission==="granted")new Notification(p.new.title,{body:p.new.body})}catch(e){}if(MAIN.includes(tab))go(tab)}).subscribe()}
+function go(t){if(!U&&!["onb","login","reg","splash"].includes(t))t="onb";if(MAIN.includes(tab))BACK=tab;tab=t;
+ const T=[["home","🏠","হোম"],["req","🆘","অনুরোধ"],["notif","🔔","নোটিফিকেশন"],["me","👤","প্রোফাইল"]],n=$("#nav");n.style.display=U&&MAIN.includes(t)?"flex":"none";
+ n.innerHTML=T.map(x=>`<button class="${x[0]===t?"on":""}" onclick="go('${x[0]}')"><span>${x[1]}</span>${x[2]}${x[0]==="notif"&&NC?`<i>${NC}</i>`:""}</button>`).join("");window.scrollTo(0,0);VIEW[t]()}
+async function boot(){VIEW.splash();await Promise.all([refresh(),new Promise(r=>setTimeout(r,1400))]);go(U?"home":"onb")}
+async function after(){await refresh();go(U?"home":"login")}
 
-VIEW.home=async()=>{const[a,b]=await Promise.all([SB.from("donors").select("id",{count:"exact",head:true}),SB.from("requests").select("id",{count:"exact",head:true}).eq("status","open")]);
- const T=[["find","🔍","ডোনার খুঁজুন"],["req","🆘","জরুরি অনুরোধ"],["svc","📞","জরুরি নম্বর"],["svc","📍","কাছের সেবা"],["donate","💝","আর্থিক সহায়তা"],["me","🩸","ডোনার হোন"]];
- $("#app").innerHTML=`<section class="hero"><h2>রক্ত দিন,<br>জীবন বাঁচান</h2><p>আপনার একবিন্দু রক্ত বাঁচাতে পারে একটি প্রাণ</p><button onclick="go('find')">ডোনার খুঁজুন</button><button class="o" onclick="go('req')">জরুরি অনুরোধ</button></section>
- <div class="stats"><div><b>${a.count??0}</b>যাচাইকৃত ডোনার</div><div><b>${b.count??0}</b>চলমান অনুরোধ</div></div>
+VIEW.splash=()=>{$("#app").innerHTML=`<div class="sp">${logo(90)}<h1>রক্তবন্ধু</h1><small>ROKTOBONDHU</small><p>আপনার রক্ত,<br>বাঁচাতে পারে একটি প্রাণ।</p><div class="ld"></div><div class="mu">লোড হচ্ছে...</div></div>`};
+VIEW.onb=()=>{$("#app").innerHTML=`<div class="sp"><div class="il">🩸🤝</div><h1 style="font-size:1.9rem">রক্ত দিন,<br>জীবন বাঁচান</h1><p>আপনার একটি রক্তদান<br>বাঁচাতে পারে অনেক জীবন।</p><div class="dots"><i></i><i></i><i></i><i></i></div><button class="btn" style="max-width:340px" onclick="go('reg')">এগিয়ে যান →</button><button class="btn o" style="max-width:340px" onclick="go('login')">লগইন করুন</button></div>`};
+VIEW.login=()=>{$("#app").innerHTML=`<div class="sp" style="min-height:auto;padding-top:24px">${logo(54)}<b style="color:var(--rd);font-size:1.5rem">রক্তবন্ধু</b></div><h3 style="text-align:center">লগইন করুন</h3><div class="seg"><button class="${LT==="m"?"on":""}" onclick="LT='m';VIEW.login()">মোবাইল</button><button class="${LT==="e"?"on":""}" onclick="LT='e';VIEW.login()">ইমেইল</button></div>
+ <input id="lu" ${LT==="m"?'inputmode="tel" placeholder="মোবাইল নম্বর লিখুন (01XXXXXXXXX)" autocomplete="tel"':'type="email" placeholder="ইমেইল" autocomplete="email"'}><input id="lp" type="password" placeholder="পাসওয়ার্ড লিখুন" autocomplete="current-password"><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" style="width:auto;margin:0" onchange="$('#lp').type=this.checked?'text':'password'"> পাসওয়ার্ড দেখুন</label>
+ <button class="btn" onclick="login()">লগইন</button><p class="mu" style="text-align:center" onclick="toast('পাসওয়ার্ড ভুলে গেলে অ্যাডমিনের সাথে যোগাযোগ করুন')">পাসওয়ার্ড ভুলে গেছেন?</p><p style="text-align:center">নতুন অ্যাকাউন্ট? <a href="#" onclick="go('reg');return false" style="color:var(--rd)">রেজিস্টার করুন</a></p>`};
+async function login(){const em=LT==="m"?(np(v("lu"))?pe(np(v("lu"))):null):v("lu").trim();if(!em)return toast("সঠিক নম্বর দিন");if(ok(await SB.auth.signInWithPassword({email:em,password:v("lp")})))after()}
+VIEW.reg=()=>{$("#app").innerHTML=`${hdr("নিবন্ধন করুন","onb")}<div class="seg"><button class="${ROLE==="patient"?"on":""}" onclick="ROLE='patient';VIEW.reg()">রোগী</button><button class="${ROLE==="donor"?"on":""}" onclick="ROLE='donor';VIEW.reg()">ডোনার</button></div>
+ <input id="rn" placeholder="নাম লিখুন" autocomplete="name"><input id="rp" inputmode="tel" placeholder="মোবাইল নম্বর (01XXXXXXXXX)" autocomplete="tel">${ROLE==="donor"?`<label>রক্তের গ্রুপ</label>${chips("rb")}`:""}<label>ঠিকানা</label>${geoHTML("r")}<input id="ra" placeholder="গ্রাম/মহল্লা/এলাকা"><input id="rw" type="password" placeholder="পাসওয়ার্ড (৮+ অক্ষর)" autocomplete="new-password"><input id="rw2" type="password" placeholder="পাসওয়ার্ড নিশ্চিত করুন" autocomplete="new-password">
+ <button class="btn" onclick="reg()">নিবন্ধন করুন</button><p style="text-align:center">অ্যাকাউন্ট আছে? <a href="#" onclick="go('login');return false" style="color:var(--rd)">লগইন করুন</a></p>`;if(ROLE==="donor")wireChips("rb");wireGeo("r",0)};
+async function reg(){const n=v("rn").trim(),p=np(v("rp")),w=v("rw"),don=ROLE==="donor";if(!n||!p)return toast("নাম ও সঠিক মোবাইল নম্বর দিন");if(w.length<8||w!==v("rw2"))return toast("পাসওয়ার্ড ৮+ অক্ষর ও দুটি এক হতে হবে");if(don&&!chip("rb"))return toast("রক্তের গ্রুপ বাছুন");
+ const r=await SB.auth.signUp({email:pe(p),password:w});if(!ok(r))return;if(!r.data.session)return toast("লগইন করুন");
+ if(!ok(await SB.from("profiles").insert({id:r.data.user.id,name:n,phone:p,blood:chip("rb")||null,district_id:+v("rz")||null,upazila_id:+v("ru")||null,area:v("ra").trim(),is_donor:don})))return;
+ await refresh();toast("নিবন্ধন সম্পন্ন");go(don?"kyc":"home")}
+
+VIEW.home=()=>{const T=[["req","🆘","জরুরি রক্তের অনুরোধ"],["find","🩸","ডোনার খুঁজুন"],["mine","📝","আমার অনুরোধ"],["aware","💡","সচেতনতা"],["svc","📞","জরুরি নম্বর"],["donate","💝","আর্থিক সহায়তা"]];
+ $("#app").innerHTML=`<div class="top">${logo(26)}<b>রক্তবন্ধু</b><span onclick="go('notif')" style="font-size:1.4rem">🔔${NC?`<sup style="color:var(--rd)">${NC}</sup>`:""}</span></div>
+ <section class="hero"><h2>রক্ত দিন,<br>জীবন বাঁচান</h2><input placeholder="🔍 জেলা/থানা/এলাকা খুঁজুন…" onkeydown="if(event.key==='Enter'){QS=this.value;go('find')}"></section>
+ ${ME&&ME.is_donor&&ME.kyc!=="verified"?`<div class="card un" onclick="go('${ME.kyc==="pending"?"me":"kyc"}')"><b>${ME.kyc==="pending"?"⏳ যাচাই চলছে":"🛡️ পরিচয় যাচাই সম্পন্ন করুন"}</b><div class="mu">${ME.kyc==="pending"?"অনুমোদনের পর আপনি ডোনার তালিকায় আসবেন।":"এনআইডি বা জন্ম নিবন্ধন দিয়ে যাচাই করলে আপনি ডোনার তালিকায় আসবেন।"}</div></div>`:""}
  <div class="tiles">${T.map(x=>`<button onclick="go('${x[0]}')"><span>${x[1]}</span>${x[2]}</button>`).join("")}</div>`};
 
-const dc=d=>{const wait=d.next_date&&new Date(d.next_date)>new Date();
- return `<div class="card"><div class="row"><div class="av">${esc((d.name||"?")[0])}</div><div class="f1"><b>${esc(d.name)}</b> <span class="bd">${d.blood}</span> <span class="tg v">✔ যাচাইকৃত</span>
- <div class="mu">📍 ${esc(d.area||"")} ${esc(nm("u",d.upazila_id))} ${esc(nm("z",d.district_id))}</div>
- <div class="mu">🩸 শেষ দান: ${fd(d.last_donated)}${d.last_donated?" · পরবর্তী দান: "+fd(d.next_date):""}</div>
- ${wait?'<span class="tg o">এখন দিতে পারবেন না</span>':'<span class="tg g">● দিতে প্রস্তুত</span>'}</div>
- ${d.phone?`<a class="call" href="tel:${esc(d.phone)}" aria-label="কল">📞</a>`:""}</div>
- <div class="mu" style="margin-top:6px">${d.phone?"📱 "+esc(d.phone):U?"নম্বর গোপন রাখা হয়েছে":"নম্বর দেখতে লগইন করুন"} <a href="#" onclick="rep('${d.id}');return false" style="float:right;color:var(--mu)">⚑ রিপোর্ট</a></div></div>`};
-VIEW.find=()=>{$("#app").innerHTML=`<div class="card">${chips("fb")}<div style="height:8px"></div>${geoHTML("f")}<input id="fa" placeholder="গ্রাম/মহল্লা/এলাকা (ঐচ্ছিক)"><button class="btn" onclick="search()">🔍 ডোনার খুঁজুন</button></div><div id="out"></div>`;wireChips("fb");wireGeo("f",1);search()};
+const dc=d=>{DN[d.id]=d;return `<div class="card row" onclick="openDonor('${d.id}')"><div class="av">${esc((d.name||"?")[0])}</div><div class="f1"><b>${esc(d.name)}</b> <span class="bd">${d.blood}</span><div class="mu">📍 ${esc(d.area||"")} ${esc(loc(d))}</div><div class="mu">🩸 শেষ দান: ${fd(d.last_donated)}${d.last_donated?" · পরবর্তী: "+fd(d.next_date):""}</div>${d.ready?'<span class="tg g">● দিতে প্রস্তুত</span>':'<span class="tg o">এখন দিতে পারবেন না</span>'}</div><span style="font-size:1.4rem">›</span></div>`};
+VIEW.find=()=>{$("#app").innerHTML=`${hdr("ডোনার খুঁজুন","home")}<div class="card">${chips("fb")}<div style="height:8px"></div>${geoHTML("f")}<input id="fa" placeholder="গ্রাম/মহল্লা/এলাকা (ঐচ্ছিক)" value="${esc(QS)}"><button class="btn" onclick="search()">🔍 খুঁজুন</button></div><div id="out"></div>`;QS="";wireChips("fb");wireGeo("f",1);search()};
 async function search(){let q=SB.from("donors").select("*").order("last_donated",{ascending:true,nullsFirst:true}).limit(60);const b=chip("fb");
- if(b)q=q.eq("blood",b);if(v("fz"))q=q.eq("district_id",v("fz"));else if(v("fd"))q=q.in("district_id",G.z.filter(x=>x.division_id==v("fd")).map(x=>x.id));
- if(v("fu"))q=q.eq("upazila_id",v("fu"));const a=v("fa").trim().replace(/[%,()]/g,"");if(a)q=q.ilike("area","%"+a+"%");
- const r=await q;if(!ok(r))return;$("#out").innerHTML=r.data.length?r.data.map(dc).join(""):'<div class="card empty">এই এলাকায় এখনো যাচাইকৃত ডোনার নেই।<br>পাশের জেলায় খুঁজুন বা জরুরি অনুরোধ পোস্ট করুন।</div>'}
-async function rep(id){if(!U)return toast("রিপোর্ট করতে লগইন করুন");const w=prompt("সমস্যা কী? (যেমন: ভুয়া, টাকা চেয়েছে)");if(w&&ok(await SB.rpc("report_user",{uid:id,w})))toast("রিপোর্ট জমা হয়েছে")}
+ if(b)q=q.eq("blood",b);if(v("fz"))q=q.eq("district_id",v("fz"));else if(v("fd"))q=q.in("district_id",G.z.filter(x=>x.division_id==v("fd")).map(x=>x.id));if(v("fu"))q=q.eq("upazila_id",v("fu"));
+ const a=v("fa").trim().replace(/[%,()]/g,"");if(a)q=q.ilike("area","%"+a+"%");const r=await q;if(!ok(r))return;
+ $("#out").innerHTML=r.data.length?r.data.map(dc).join(""):'<div class="card empty">এই এলাকায় এখনো যাচাইকৃত ডোনার নেই।<br>পাশের এলাকায় খুঁজুন বা জরুরি অনুরোধ করুন।</div>'}
+function openDonor(id){const d=DN[id];$("#app").innerHTML=`${hdr("ডোনারের তথ্য","find")}<div class="card" style="text-align:center"><div class="av l">${esc((d.name||"?")[0])}</div><h2 style="margin:8px 0 0">${esc(d.name)}</h2><span class="bd" style="font-size:1.2rem;padding:2px 14px">${d.blood}</span><div>${d.ready?'<span class="tg g">● Available</span>':'<span class="tg o">এখন দিতে পারবেন না</span>'} <span class="tg v">✔ যাচাইকৃত</span></div>
+ <p>📍 ${esc(d.area||"")} ${esc(loc(d))}</p><p id="ph" style="font-size:1.1rem">📱 ${d.phone_mask?esc(d.phone_mask):"নম্বর গোপন রাখা হয়েছে"}</p>${d.phone_mask?`<button class="btn" id="cb" onclick="reveal('${id}')">📞 যোগাযোগ করুন</button>`:""}</div>
+ <div class="card"><b>ডোনারের তথ্য</b><div class="mu">🩸 শেষ রক্তদান: ${fd(d.last_donated)}</div><div class="mu">📅 পরবর্তী দানের তারিখ: ${d.last_donated?fd(d.next_date):"যেকোনো সময়"}</div></div><p class="mu" style="text-align:center"><a href="#" onclick="rep('${id}');return false" style="color:var(--mu)">⚑ ভুয়া বা সন্দেহজনক? রিপোর্ট করুন</a></p>`}
+async function reveal(id){const r=await SB.rpc("get_phone",{uid:id});if(!ok(r))return;if(!r.data)return toast("নম্বর পাওয়া যায়নি");$("#ph").textContent="📱 "+r.data;$("#cb").outerHTML=`<a class="btn g" href="tel:${esc(r.data)}">📞 কল করুন</a>`}
+async function rep(id){const w=prompt("সমস্যা কী? (যেমন: ভুয়া, টাকা চেয়েছে)");if(w&&ok(await SB.rpc("report_user",{uid:id,w})))toast("রিপোর্ট জমা হয়েছে")}
 
-const rc=x=>{REQ[x.id]=x;return `<div class="card"><div class="row"><div class="bg2">${x.blood}</div><div class="f1"><b>${esc(x.hospital)}</b><div class="mu">${x.bags} ব্যাগ · ${esc(x.needed_at||"")}</div><div class="mu">📍 ${esc(nm("u",x.upazila_id))} ${esc(nm("z",x.district_id))}</div></div></div>${x.note?`<div style="margin-top:6px">${esc(x.note)}</div>`:""}
- <a class="btn s g" href="tel:${esc(x.contact_phone)}">📞 কল</a><button class="btn s" onclick="share(${x.id})">↗ শেয়ার</button>${x.user_id===U?.id?`<button class="btn s m" onclick="closeReq(${x.id})">✔ পূর্ণ হয়েছে</button>`:""}</div>`};
-VIEW.req=async()=>{if(!U){$("#app").innerHTML='<div class="card empty">অনুরোধ দেখতে ও করতে লগইন করুন।<button class="btn" onclick="go(\'me\')">লগইন / নিবন্ধন</button></div>';return}
- const r=await SB.from("requests").select("*").eq("status","open").order("created_at",{ascending:false}).limit(50);
- $("#app").innerHTML=`<div class="card"><b>🆘 জরুরি রক্তের অনুরোধ</b><label>রক্তের গ্রুপ</label>${chips("rb")}<input id="rpn" placeholder="রোগীর নাম"><input id="rbag" type="number" min="1" placeholder="কত ব্যাগ"><input id="rh" placeholder="হাসপাতালের নাম"><input id="rw" placeholder="কখন লাগবে (যেমন: আজ রাত ৯টা)">${geoHTML("r")}<input id="rc" inputmode="tel" placeholder="যোগাযোগের নম্বর"><textarea id="rn" placeholder="বিস্তারিত"></textarea><button class="btn" onclick="postReq()">অনুরোধ পাঠান</button><p class="mu">পাঠানোমাত্র অনুরোধ প্রকাশিত হবে এবং ওই জেলার যাচাইকৃত ও প্রস্তুত ডোনারদের নোটিফিকেশন যাবে।</p></div>
- <h3>চলমান অনুরোধ</h3>${r.error?"":(r.data.length?r.data.map(rc).join(""):'<div class="card empty">এখন কোনো অনুরোধ নেই।</div>')}`;wireChips("rb",1);wireGeo("r",0)};
-async function postReq(){const p={patient:v("rpn"),blood:chip("rb"),bags:+v("rbag"),hospital:v("rh").trim(),needed_at:v("rw"),district_id:+v("rz")||null,upazila_id:+v("ru")||null,contact_phone:v("rc").trim(),note:v("rn")};
- if(!p.blood||!p.hospital||!p.bags||!PH.test(p.contact_phone))return toast("গ্রুপ, হাসপাতাল, ব্যাগ ও সঠিক নম্বর দিন");if(ok(await SB.from("requests").insert(p))){toast("অনুরোধ প্রকাশিত হয়েছে, ডোনারদের জানানো হয়েছে");VIEW.req()}}
-async function closeReq(id){await SB.from("requests").update({status:"done"}).eq("id",id);VIEW.req()}
-function share(id){const x=REQ[id],t=`🩸 জরুরি রক্ত প্রয়োজন!\nগ্রুপ: ${x.blood} (${x.bags} ব্যাগ)\nহাসপাতাল: ${x.hospital}\nযোগাযোগ: ${x.contact_phone}\n${location.origin}`;
- navigator.share?navigator.share({text:t}).catch(()=>{}):(navigator.clipboard?.writeText(t),toast("কপি হয়েছে, শেয়ার করুন"))}
+const rc=x=>{REQ[x.id]=x;return `<div class="card"><div class="row"><div class="bg2">${x.blood}</div><div class="f1"><b>${esc(x.hospital)}</b><div class="mu">${x.bags} ব্যাগ · ${esc(x.needed_at||"")}${x.status==="done"?" · ✔ পূর্ণ":""}</div><div class="mu">📍 ${esc(loc(x))}</div></div></div>${x.note?`<div style="margin-top:6px">${esc(x.note)}</div>`:""}
+ <a class="btn s g" href="tel:${esc(x.contact_phone)}">📞 কল</a><button class="btn s" onclick="share(${x.id})">↗ শেয়ার</button>${x.user_id===U?.id&&x.status==="open"?`<button class="btn s m" onclick="closeReq(${x.id})">✔ পূর্ণ হয়েছে</button>`:""}</div>`};
+VIEW.req=async()=>{const r=await SB.from("requests").select("*").eq("status","open").order("created_at",{ascending:false}).limit(50);
+ $("#app").innerHTML=`<div class="hero" style="border-radius:0 0 22px 22px;margin:0 -16px"><h2 style="margin:0">⚠️ জরুরি রক্তের অনুরোধ</h2><div>একটি জীবন বাঁচাতে এখনই রক্তের প্রয়োজন!</div></div><div class="card"><label>রক্তের গ্রুপ</label>${chips("rb")}<input id="rpn" placeholder="রোগীর নাম"><input id="rbag" type="number" min="1" placeholder="কত ব্যাগ"><input id="rh" placeholder="হাসপাতালের নাম"><input id="rw" placeholder="কখন লাগবে (যেমন: আজ রাত ৯টা)">${geoHTML("r")}<input id="rc" inputmode="tel" placeholder="যোগাযোগের নম্বর"><textarea id="rn" placeholder="বিস্তারিত"></textarea><button class="btn" onclick="postReq()">অনুরোধ পাঠান</button><p class="mu">পাঠানোমাত্র অনুরোধ প্রকাশিত হবে এবং ওই জেলার যাচাইকৃত ও প্রস্তুত ডোনারদের নোটিফিকেশন যাবে।</p></div><h3>চলমান অনুরোধ</h3>${r.error?"":(r.data.length?r.data.map(rc).join(""):'<div class="card empty">এখন কোনো অনুরোধ নেই।</div>')}`;wireChips("rb");wireGeo("r",0);if(ME?.phone)$("#rc").value=ME.phone};
+async function postReq(){const p={patient:v("rpn"),blood:chip("rb"),bags:+v("rbag"),hospital:v("rh").trim(),needed_at:v("rw"),district_id:+v("rz")||null,upazila_id:+v("ru")||null,contact_phone:np(v("rc")),note:v("rn")};
+ if(!p.blood||!p.hospital||!p.bags||!p.contact_phone)return toast("গ্রুপ, হাসপাতাল, ব্যাগ ও সঠিক নম্বর দিন");if(ok(await SB.from("requests").insert(p))){toast("অনুরোধ প্রকাশিত, ডোনারদের জানানো হয়েছে");VIEW.req()}}
+async function closeReq(id){await SB.from("requests").update({status:"done"}).eq("id",id);go(tab)}
+VIEW.mine=async()=>{const r=await SB.from("requests").select("*").eq("user_id",U.id).order("created_at",{ascending:false});$("#app").innerHTML=hdr("আমার অনুরোধ","home")+((r.data||[]).map(rc).join("")||'<div class="card empty">কোনো অনুরোধ নেই।</div>')};
+function share(id){const x=REQ[id],t=`🩸 জরুরি রক্ত প্রয়োজন!\nগ্রুপ: ${x.blood} (${x.bags} ব্যাগ)\nহাসপাতাল: ${x.hospital}\nযোগাযোগ: ${x.contact_phone}\n${location.origin}`;navigator.share?navigator.share({text:t}).catch(()=>{}):(navigator.clipboard?.writeText(t),toast("কপি হয়েছে"))}
 
-VIEW.notif=async()=>{if(!U){$("#app").innerHTML='<div class="card empty">লগইন করুন।<button class="btn" onclick="go(\'me\')">লগইন</button></div>';return}
- const r=await SB.from("notifications").select("*").order("created_at",{ascending:false}).limit(40);
- $("#app").innerHTML=`${"Notification"in window&&Notification.permission==="default"?'<button class="btn" onclick="Notification.requestPermission().then(()=>go(\'notif\'))">🔔 ফোনে নোটিফিকেশন চালু করুন</button>':""}`+((r.data||[]).map(n=>`<div class="card un"><b>${esc(n.title)}</b><div>${esc(n.body)}</div><div class="mu">${new Date(n.created_at).toLocaleString("bn-BD")}</div><button class="btn s" onclick="go('req')">অনুরোধ দেখুন</button></div>`).join("")||'<div class="card empty">কোনো নোটিফিকেশন নেই।</div>');
+VIEW.notif=async()=>{const r=await SB.from("notifications").select("*").order("created_at",{ascending:false}).limit(40);
+ $("#app").innerHTML=`<div class="top"><b>নোটিফিকেশন</b></div>${"Notification"in window&&Notification.permission==="default"?'<button class="btn" onclick="Notification.requestPermission().then(()=>go(\'notif\'))">🔔 ফোনে নোটিফিকেশন চালু করুন</button>':""}`+((r.data||[]).map(n=>`<div class="card un"><b>${esc(n.title)}</b><div>${esc(n.body)}</div><div class="mu">${new Date(n.created_at).toLocaleString("bn-BD")}</div><button class="btn s" onclick="go('req')">অনুরোধ দেখুন</button></div>`).join("")||'<div class="card empty">কোনো নোটিফিকেশন নেই।</div>');
  if(NC){await SB.from("notifications").update({read:true}).eq("read",false);NC=0;$("#nav").querySelectorAll("i").forEach(i=>i.remove())}};
-
+VIEW.aware=()=>{$("#app").innerHTML=hdr("সচেতনতা","home")+`<div class="card"><b>রক্তদানের আগে</b><ul class="mu"><li>সুস্থ থাকুন এবং পর্যাপ্ত পানি পান করুন।</li><li>সাধারণত ১৮ বছরের বেশি বয়স ও ন্যূনতম ওজন লাগে, রক্তদান কেন্দ্রের নিয়ম দেখুন।</li><li>অ্যাপের নিয়মে এক দানের পর অন্তত ৩ মাস বিরতি দিন।</li><li>অসুস্থ, গর্ভবতী বা ওষুধ চললে আগে ডাক্তারের পরামর্শ নিন।</li></ul></div><div class="card"><b>স্ক্যাম থেকে সাবধান</b><ul class="mu"><li>রক্তের বিনিময়ে টাকা চাইলে রিপোর্ট করুন।</li><li>আগে হাসপাতালে নিজে যাচাই করুন।</li><li>ওটিপি বা পাসওয়ার্ড কাউকে দেবেন না।</li></ul></div>`};
 VIEW.svc=async()=>{const r=await SB.from("emergency_numbers").select("*").eq("active",true).order("sort");
- $("#app").innerHTML=(r.data||[]).map(x=>`<div class="card row"><div class="f1"><b>${esc(x.number)}</b><div class="mu">${esc(x.label)}</div></div><a class="btn s g" href="tel:${esc(x.number)}">কল</a></div>`).join("")+
- `<div class="card"><b>📍 কাছের সেবা (গুগল ম্যাপ)</b>${[["hospital","🏥 হাসপাতাল"],["fire station","🚒 ফায়ার স্টেশন"],["ambulance service","🚑 অ্যাম্বুলেন্স"],["blood bank","🩸 ব্লাড ব্যাংক"],["police station","🚓 থানা"]].map(x=>`<button class="btn" onclick="near('${x[0]}')">${x[1]}</button>`).join("")}</div>`};
+ $("#app").innerHTML=hdr("জরুরি নম্বর","home")+(r.data||[]).map(x=>`<div class="card row"><div class="f1"><b>${esc(x.number)}</b><div class="mu">${esc(x.label)}</div></div><a class="btn s g" href="tel:${esc(x.number)}">কল</a></div>`).join("")+`<div class="card"><b>📍 কাছের সেবা (গুগল ম্যাপ)</b>${[["hospital","🏥 হাসপাতাল"],["fire station","🚒 ফায়ার স্টেশন"],["ambulance service","🚑 অ্যাম্বুলেন্স"],["blood bank","🩸 ব্লাড ব্যাংক"],["police station","🚓 থানা"]].map(x=>`<button class="btn" onclick="near('${x[0]}')">${x[1]}</button>`).join("")}</div>`};
 function near(q){const o=c=>window.open("https://www.google.com/maps/search/"+encodeURIComponent(q)+(c?`/@${c.latitude},${c.longitude},14z`:""),"_blank");navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>o(p.coords),()=>o(),{timeout:6000}):o()}
-
 VIEW.donate=async()=>{const[m,f]=await Promise.all([SB.from("payment_methods").select("*").eq("active",true).order("sort"),SB.from("fund_total").select("total").single()]);const M=m.data||[];
- $("#app").innerHTML=`<div class="card"><b>💝 সার্ভার ও ডাটাবেস খরচে সহায়তা</b><p class="mu">অ্যাপ সবার জন্য বিনামূল্যে। আপনার দান শুধু সার্ভার ও রক্ষণাবেক্ষণে ব্যয় হবে।</p>সংগৃহীত: <b>৳${f.data?.total??0}</b></div>
- ${M.map(x=>`<div class="card row"><div class="f1"><b>${esc(x.name)}</b><div>${esc(x.number)}</div><div class="mu">${esc(x.instructions||"")}</div></div><button class="btn s" onclick="navigator.clipboard?.writeText('${esc(x.number)}');toast('কপি হয়েছে')">কপি</button></div>`).join("")||'<div class="card empty">শীঘ্রই চালু হবে।</div>'}
- ${U&&M.length?`<div class="card"><b>পাঠানোর পর তথ্য দিন</b><select id="dm">${M.map(x=>`<option>${esc(x.name)}</option>`).join("")}</select><input id="da" type="number" placeholder="পরিমাণ (৳)"><input id="dt" placeholder="ট্রানজ্যাকশন আইডি (TrxID)"><button class="btn g" onclick="sendDon()">জমা দিন</button></div>`:""}`};
+ $("#app").innerHTML=hdr("আর্থিক সহায়তা","home")+`<div class="card"><b>💝 সার্ভার ও ডাটাবেস খরচে সহায়তা</b><p class="mu">অ্যাপ সবার জন্য বিনামূল্যে। আপনার দান শুধু সার্ভার ও রক্ষণাবেক্ষণে ব্যয় হবে।</p>সংগৃহীত: <b>৳${f.data?.total??0}</b></div>${M.map(x=>`<div class="card row"><div class="f1"><b>${esc(x.name)}</b><div>${esc(x.number)}</div><div class="mu">${esc(x.instructions||"")}</div></div><button class="btn s" onclick="navigator.clipboard?.writeText('${esc(x.number)}');toast('কপি হয়েছে')">কপি</button></div>`).join("")||'<div class="card empty">শীঘ্রই চালু হবে।</div>'}
+ ${M.length?`<div class="card"><b>পাঠানোর পর তথ্য দিন</b><select id="dm">${M.map(x=>`<option>${esc(x.name)}</option>`).join("")}</select><input id="da" type="number" placeholder="পরিমাণ (৳)"><input id="dt" placeholder="ট্রানজ্যাকশন আইডি (TrxID)"><button class="btn g" onclick="sendDon()">জমা দিন</button></div>`:""}`};
 async function sendDon(){if(!v("da")||!v("dt").trim())return toast("পরিমাণ ও TrxID দিন");if(ok(await SB.from("donations").insert({name:ME?.name,amount:+v("da"),method:v("dm"),trx_id:v("dt").trim()})))toast("ধন্যবাদ! অ্যাডমিন যাচাই করবেন")}
 
-VIEW.me=()=>{if(!U){$("#app").innerHTML=OTPE?`<div class="card"><b>📧 ইমেইল যাচাই</b><p class="mu">${esc(OTPE)}-এ পাঠানো কোডটি লিখুন।</p><input id="otp" inputmode="numeric" maxlength="8" placeholder="কোড"><button class="btn" onclick="verify()">যাচাই করুন</button><button class="btn m" onclick="SB.auth.resend({type:'signup',email:OTPE}).then(()=>toast('আবার পাঠানো হয়েছে'))">আবার পাঠান</button></div>`:
- `<div class="card"><b>লগইন / নিবন্ধন</b><input id="em" type="email" placeholder="ইমেইল" autocomplete="email"><input id="pw" type="password" placeholder="পাসওয়ার্ড (৮+ অক্ষর)"><button class="btn" onclick="auth(0)">লগইন</button><button class="btn g" onclick="auth(1)">নতুন অ্যাকাউন্ট</button></div>`;return}
- const m=ME||{},S={none:["যাচাই হয়নি","o"],pending:["যাচাইয়ের অপেক্ষায়","o"],verified:["✔ যাচাইকৃত","g"],rejected:["বাতিল, আবার জমা দিন","o"]}[m.kyc||"none"];
- $("#app").innerHTML=`<div class="card row"><div class="av">${esc((m.name||"?")[0])}</div><div class="f1"><b>${esc(m.name||"নাম দিন")}</b><div class="mu">${esc(U.email)}</div><span class="tg ${S[1]}">${S[0]}</span></div></div>
- <div class="card"><b>ডোনার তথ্য</b><input id="mn" placeholder="নাম" value="${esc(m.name)}"><input id="mp" inputmode="tel" placeholder="মোবাইল নম্বর" value="${esc(m.phone)}"><label>রক্তের গ্রুপ</label>${chips("mb")}<label>ঠিকানা</label>${geoHTML("m")}<input id="ma" placeholder="গ্রাম/মহল্লা/এলাকা" value="${esc(m.area)}"><label>সর্বশেষ রক্তদানের তারিখ</label><input id="ml" type="date" value="${m.last_donated||""}"><label style="display:flex;gap:8px;align-items:center"><input id="mh" type="checkbox" style="width:auto;margin:0" ${m.hide_phone?"checked":""}> আমার নম্বর গোপন রাখুন</label><button class="btn" onclick="saveMe()">সংরক্ষণ</button></div>
- ${m.kyc==="verified"||m.kyc==="pending"?"":`<div class="card"><b>🛡️ পরিচয় যাচাই</b><label>এনআইডি সামনে</label><input id="n1" type="file" accept="image/*"><label>এনআইডি পেছনে</label><input id="n2" type="file" accept="image/*"><label>এনআইডি হাতে সেলফি</label><input id="sf" type="file" accept="image/*" capture="user"><button class="btn g" onclick="kyc()">যাচাইয়ের জন্য জমা দিন</button><p class="mu">ছবি প্রাইভেট স্টোরেজে থাকে, শুধু অ্যাডমিন দেখে এবং অনুমোদনের পর মুছে ফেলা হয়।</p></div>`}
- <div class="card"><button class="btn m" style="margin:0 0 8px" onclick="go('donate')">💝 আর্থিক সহায়তা</button>${m.role==="admin"?'<button class="btn" style="margin:0 0 8px" onclick="go(\'adm\')">🛡️ অ্যাডমিন প্যানেল</button>':""}<button class="btn m" style="margin:0 0 8px" onclick="SB.auth.signOut().then(()=>{CH=null;load()})">লগআউট</button><button class="btn" style="background:none;color:var(--rd);border:1px solid var(--rd);margin:0" onclick="delAcc()">অ্যাকাউন্ট ও তথ্য মুছুন</button></div>`;
- wireChips("mb",1);setChip("mb",m.blood);wireGeo("m",0);const z=G.z.find(x=>x.id==m.district_id);if(z){$("#md").value=z.division_id;$("#md").onchange();$("#mz").value=z.id;$("#mz").onchange();if(m.upazila_id)$("#mu").value=m.upazila_id}};
-async function auth(n){const e=v("em").trim(),p=v("pw");if(!e||p.length<8)return toast("ইমেইল ও কমপক্ষে ৮ অক্ষরের পাসওয়ার্ড দিন");
- const r=n?await SB.auth.signUp({email:e,password:p}):await SB.auth.signInWithPassword({email:e,password:p});if(!ok(r))return;
- if(n&&!r.data.session){OTPE=e;return VIEW.me()}toast(n?"অ্যাকাউন্ট হয়েছে":"স্বাগতম");load()}
-async function verify(){const r=await SB.auth.verifyOtp({email:OTPE,token:v("otp").trim(),type:"signup"});if(ok(r)){OTPE=null;load()}}
-async function saveMe(){const p={id:U.id,name:v("mn").trim(),phone:v("mp").trim(),blood:chip("mb"),district_id:+v("mz")||null,upazila_id:+v("mu")||null,area:v("ma").trim(),last_donated:v("ml")||null,hide_phone:$("#mh").checked};
- if(!p.name||!p.blood||!PH.test(p.phone))return toast("নাম, গ্রুপ ও সঠিক মোবাইল নম্বর দিন");if(ok(await SB.from("profiles").upsert(p))){toast("সংরক্ষিত");load()}}
-async function kyc(){if(!ME)return toast("আগে ডোনার তথ্য সংরক্ষণ করুন");const f=["n1","n2","sf"].map(i=>$("#"+i).files[0]);if(f.some(x=>!x))return toast("তিনটি ছবিই দিন");
- for(let i=0;i<3;i++)if(!ok(await SB.storage.from("kyc").upload(`${U.id}/${i}.jpg`,await shrink(f[i]),{upsert:true,contentType:"image/jpeg"})))return;
- if(ok(await SB.rpc("submit_kyc"))){toast("জমা হয়েছে");load()}}
-async function delAcc(){if(confirm("অ্যাকাউন্ট ও সব তথ্য স্থায়ীভাবে মুছে যাবে। নিশ্চিত?")&&ok(await SB.rpc("delete_my_account"))){await SB.auth.signOut();CH=null;load()}}
+VIEW.me=()=>{const m=ME||{},S={none:["যাচাই হয়নি","o"],pending:["যাচাইয়ের অপেক্ষায়","o"],verified:["✔ যাচাইকৃত","g"],rejected:["বাতিল, আবার জমা দিন","o"]}[m.kyc||"none"],mi=(a,t)=>`<div class="mi" onclick="${a}"><span>${t}</span><span>›</span></div>`;
+ $("#app").innerHTML=`<div class="card row"><div class="av l" style="margin:0;width:64px;height:64px;font-size:1.6rem">${esc((m.name||"?")[0])}</div><div class="f1"><b>${esc(m.name||"নাম দিন")}</b><div class="mu">${esc(m.phone||U.email)}</div>${m.is_donor?`<span class="tg ${S[1]}">${S[0]}</span>`:'<span class="tg v">রোগী</span>'}</div></div>
+ <div class="card">${mi("go('edit')","👤 আমার প্রোফাইল")}${m.is_donor&&m.kyc!=="verified"&&m.kyc!=="pending"?mi("go('kyc')","🛡️ পরিচয় যাচাই"):""}${mi("go('mine')","📝 আমার অনুরোধ")}${mi("go('donate')","💝 আর্থিক সহায়তা")}${mi("go('aware')","💡 সচেতনতা")}${m.role==="admin"?mi("go('adm')","🛡️ অ্যাডমিন প্যানেল"):""}${mi("toast('রক্তবন্ধু – রক্তের বন্ধনে গড়ি মানবতার বন্ধন')","ℹ️ অ্যাপ সম্পর্কে")}</div>
+ <button class="btn m" onclick="SB.auth.signOut().then(()=>{CH=null;after()})">লগআউট</button><button class="btn o" onclick="delAcc()">অ্যাকাউন্ট ও তথ্য মুছুন</button>`};
+VIEW.edit=()=>{const m=ME||{};$("#app").innerHTML=`${hdr("আমার প্রোফাইল","me")}<div class="card"><input id="mn" placeholder="নাম" value="${esc(m.name)}"><input id="mp" inputmode="tel" placeholder="মোবাইল নম্বর" value="${esc(m.phone)}"><label>রক্তের গ্রুপ</label>${chips("mb")}<label>ঠিকানা</label>${geoHTML("m")}<input id="ma" placeholder="গ্রাম/মহল্লা/এলাকা" value="${esc(m.area)}"><label>সর্বশেষ রক্তদানের তারিখ</label><input id="ml" type="date" value="${m.last_donated||""}"><label style="display:flex;gap:8px;align-items:center"><input id="mh" type="checkbox" style="width:auto;margin:0" ${m.hide_phone?"checked":""}> আমার নম্বর গোপন রাখুন</label><button class="btn" onclick="saveMe()">সংরক্ষণ</button></div>`;
+ wireChips("mb");setChip("mb",m.blood);wireGeo("m",0);const z=G.z.find(x=>x.id==m.district_id);if(z){$("#md").value=z.division_id;$("#md").onchange();$("#mz").value=z.id;$("#mz").onchange();if(m.upazila_id)$("#mu").value=m.upazila_id}};
+async function saveMe(){const p={name:v("mn").trim(),phone:np(v("mp")),blood:chip("mb")||null,district_id:+v("mz")||null,upazila_id:+v("mu")||null,area:v("ma").trim(),last_donated:v("ml")||null,hide_phone:$("#mh").checked};
+ if(!p.name||!p.phone)return toast("নাম ও সঠিক মোবাইল নম্বর দিন");if(ok(await SB.from("profiles").update(p).eq("id",U.id))){toast("সংরক্ষিত");await refresh();go("me")}}
+VIEW.kyc=()=>{const f=(i,t)=>`<label>${t}</label><input id="${i}" type="file" accept="image/*">`;
+ $("#app").innerHTML=`${hdr("পরিচয় যাচাই","home")}<div class="card"><div class="seg"><button class="${KT==="nid"?"on":""}" onclick="KT='nid';VIEW.kyc()">এনআইডি কার্ড</button><button class="${KT==="birth"?"on":""}" onclick="KT='birth';VIEW.kyc()">জন্ম নিবন্ধন</button></div>
+ ${KT==="nid"?f("k0","এনআইডি সামনে")+f("k1","এনআইডি পেছনে"):f("k0","জন্ম নিবন্ধন সনদ (স্পষ্ট ছবি)")}${f("k2","সনদ হাতে ধরে নিজের সেলফি")}<button class="btn g" onclick="kyc()">যাচাইয়ের জন্য জমা দিন</button><p class="mu">ডোনারের বয়স ১৮+ হতে হবে। ছবি প্রাইভেট স্টোরেজে থাকে, শুধু অ্যাডমিন দেখে এবং সিদ্ধান্তের পর মুছে ফেলা হয়।</p></div>`};
+async function kyc(){const ids=KT==="nid"?["k0","k1","k2"]:["k0","k2"],f=ids.map(i=>$("#"+i).files[0]);if(f.some(x=>!x))return toast("সব ছবি দিন");
+ for(let i=0;i<ids.length;i++)if(!ok(await SB.storage.from("kyc").upload(`${U.id}/${ids[i].slice(1)}.jpg`,await shrink(f[i]),{upsert:true,contentType:"image/jpeg"})))return;
+ if(ok(await SB.rpc("submit_kyc",{t:KT}))){toast("জমা হয়েছে");await refresh();go("me")}}
+async function delAcc(){if(confirm("অ্যাকাউন্ট ও সব তথ্য স্থায়ীভাবে মুছে যাবে। নিশ্চিত?")&&ok(await SB.rpc("delete_my_account"))){await SB.auth.signOut();CH=null;after()}}
 
 const K={payment_methods:["name","number","instructions"],emergency_numbers:["label","number"]};
 VIEW.adm=async()=>{const[p,d,rp,pm,en]=await Promise.all([SB.from("profiles").select("*").eq("kyc","pending"),SB.from("donations").select("*").eq("status","pending").order("created_at"),SB.from("profiles").select("*").gt("reports",0).order("reports",{ascending:false}),SB.from("payment_methods").select("*").order("sort"),SB.from("emergency_numbers").select("*").order("sort")]);
  let kh="";for(const x of p.data||[]){const s=await SB.storage.from("kyc").createSignedUrls([0,1,2].map(i=>`${x.id}/${i}.jpg`),300);
-  kh+=`<div class="card"><b>${esc(x.name)}</b> · ${x.blood} · ${esc(x.phone)}<div class="pv">${(s.data||[]).map(u=>`<img src="${u.signedUrl}" alt="">`).join("")}</div><button class="btn s g" onclick="setK('${x.id}','verified')">অনুমোদন</button><button class="btn s" onclick="setK('${x.id}','rejected')">বাতিল</button></div>`}
+  kh+=`<div class="card"><b>${esc(x.name)}</b> · ${x.blood} · ${esc(x.phone)} · <span class="tg v">${x.kyc_type==="birth"?"জন্ম নিবন্ধন":"এনআইডি"}</span><div class="pv">${(s.data||[]).filter(u=>u.signedUrl).map(u=>`<img src="${u.signedUrl}" alt="">`).join("")}</div><div class="mu">সেলফির মুখ মিলান, বয়স ১৮+ নিশ্চিত করুন।</div><button class="btn s g" onclick="setK('${x.id}','verified')">অনুমোদন</button><button class="btn s" onclick="setK('${x.id}','rejected')">বাতিল</button></div>`}
  const ed=(t,R)=>`<div class="card"><b>${t==="payment_methods"?"পেমেন্ট মাধ্যম (bKash/Nagad/Rocket…)":"জরুরি নম্বর"}</b>${(R.data||[]).map(r=>`<div class="row" style="margin-top:6px"><span class="f1">${esc(r[K[t][0]])} · ${esc(r[K[t][1]])}</span><button class="btn s" onclick="tg('${t}',${r.id},${!r.active})">${r.active?"চালু":"বন্ধ"}</button><button class="btn s m" onclick="del('${t}',${r.id})">✕</button></div>`).join("")}<button class="btn g" onclick="add('${t}')">+ যোগ করুন</button></div>`;
- $("#app").innerHTML=`<div class="card"><b>🛡️ অ্যাডমিন</b> · যাচাইয়ের অপেক্ষায়: ${(p.data||[]).length}</div>${kh}
- <div class="card"><b>দান যাচাই: ${(d.data||[]).length}</b>${(d.data||[]).map(x=>`<div class="row" style="margin-top:6px"><span class="f1">${esc(x.name)} · ৳${x.amount} · ${esc(x.method)} · ${esc(x.trx_id)}</span><button class="btn s g" onclick="setD(${x.id},'confirmed')">✔</button><button class="btn s" onclick="setD(${x.id},'rejected')">✕</button></div>`).join("")}</div>
+ $("#app").innerHTML=`${hdr("অ্যাডমিন","me")}<div class="card"><b>যাচাইয়ের অপেক্ষায়: ${(p.data||[]).length}</b></div>${kh}<div class="card"><b>দান যাচাই: ${(d.data||[]).length}</b>${(d.data||[]).map(x=>`<div class="row" style="margin-top:6px"><span class="f1">${esc(x.name)} · ৳${x.amount} · ${esc(x.method)} · ${esc(x.trx_id)}</span><button class="btn s g" onclick="setD(${x.id},'confirmed')">✔</button><button class="btn s" onclick="setD(${x.id},'rejected')">✕</button></div>`).join("")}</div>
  <div class="card"><b>রিপোর্ট করা প্রোফাইল</b>${(rp.data||[]).map(x=>`<div class="row" style="margin-top:6px"><span class="f1">${esc(x.name)} · ${esc(x.phone)} · রিপোর্ট ${x.reports}</span><button class="btn s" onclick="setK('${x.id}','rejected')">বাতিল</button><button class="btn s m" onclick="clr('${x.id}')">মুক্ত</button></div>`).join("")||'<div class="mu">নেই</div>'}</div>${ed("payment_methods",pm)}${ed("emergency_numbers",en)}`};
 async function setK(id,s){if(!ok(await SB.rpc("admin_set_kyc",{uid:id,s})))return;await SB.storage.from("kyc").remove([0,1,2].map(i=>`${id}/${i}.jpg`));VIEW.adm()}
 async function clr(id){if(ok(await SB.rpc("admin_clear_reports",{uid:id})))VIEW.adm()}
@@ -154,7 +160,7 @@ async function setD(id,s){await SB.from("donations").update({status:s}).eq("id",
 async function tg(t,id,a){await SB.from(t).update({active:a}).eq("id",id);VIEW.adm()}
 async function del(t,id){if(confirm("মুছবেন?")){await SB.from(t).delete().eq("id",id);VIEW.adm()}}
 async function add(t){const o={active:true};for(const k of K[t]){const x=prompt(k);if(x===null)return;o[k]=x}if(ok(await SB.from(t).insert(o)))VIEW.adm()}
-load();
+boot();
 </script>
 </body>
 </html>
