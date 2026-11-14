@@ -42,10 +42,19 @@ if not done:
 
 m = open(MAN, encoding="utf-8").read()
 perms = ""
-for p in ("CAMERA", "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"):
+for p in ("CAMERA", "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION", "POST_NOTIFICATIONS"):
     if f"android.permission.{p}" not in m: perms += f'    <uses-permission android:name="android.permission.{p}" />\n'
 if "android.hardware.camera" not in m: perms += '    <uses-feature android:name="android.hardware.camera" android:required="false" />\n'
 m = m.replace("</manifest>", perms + "</manifest>")
+for dens, sz in [("mdpi", 24), ("hdpi", 36), ("xhdpi", 48), ("xxhdpi", 72), ("xxxhdpi", 96)]:
+    os.makedirs(f"{RES}/drawable-{dens}", exist_ok=True)
+    S = sz * 4; im = Image.new("RGBA", (S, S), (0, 0, 0, 0)); dr = ImageDraw.Draw(im)
+    cx = S / 2; r = 0.30 * S; cc = S * 0.62; py = S * 0.08; th = math.acos(r / (cc - py))
+    dr.polygon([(cx, py), (cx + r * math.sin(th), cc - r * math.cos(th)), (cx - r * math.sin(th), cc - r * math.cos(th))], fill=WHITE)
+    dr.ellipse([cx - r, cc - r, cx + r, cc + r], fill=WHITE)
+    im.resize((sz, sz), Image.LANCZOS).save(f"{RES}/drawable-{dens}/ic_stat_notify.png")
+if "default_notification_icon" not in m:
+    m = m.replace("</application>", '    <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_notify" />\n    <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/ic_launcher_background" />\n    <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="rb_alerts" />\n</application>')
 m = m.replace('android:allowBackup="true"', 'android:allowBackup="false"')
 open(MAN, "w", encoding="utf-8").write(m)
 print("android সেটআপ সম্পন্ন")

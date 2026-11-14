@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#c8102e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ROKTOBONDHU">
+<link rel="preconnect" href="https://szgyfrktlgjcccgchjsx.supabase.co" crossorigin>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -48,7 +49,7 @@ nav i{position:absolute;top:2px;right:26%;background:var(--rd);color:#fff;font-s
 <body>
 <main id="app"></main><nav id="nav"></nav><div id="toast"></div>
 <script src="config.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="supabase.js"></script>
 <script>
 window.onerror=m=>{const a=document.getElementById("app");if(a)a.innerHTML="<pre style='color:orange;white-space:pre-wrap'>"+m+"</pre>"};
 const SB=supabase.createClient(window.RB.url,window.RB.key);
@@ -77,15 +78,25 @@ const avh=(id,n,c)=>`<div class="av ${c||""}" data-av="${id}">${esc((n||"?")[0])
 async function loadAv(list){const ids=list.filter(x=>x.avatar).map(x=>x.id);if(!ids.length)return;const r=await SB.storage.from("avatars").createSignedUrls(ids.map(i=>i+"/a.jpg"),3600);
  (r.data||[]).forEach((u,i)=>{if(u.signedUrl)document.querySelectorAll(`[data-av="${ids[i]}"]`).forEach(e=>e.innerHTML=`<img src="${u.signedUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`)})}
 async function upAv(i){const f=i.files[0];if(!f)return;if(!ok(await SB.storage.from("avatars").upload(`${U.id}/a.jpg`,await shrink(f),{upsert:true,contentType:"image/jpeg"})))return;if(ok(await SB.from("profiles").update({avatar:true}).eq("id",U.id))){toast("ছবি আপলোড হয়েছে");await refresh();go("edit")}}
-async function refresh(){if(!G.d.length){const r=await Promise.all(["divisions","districts","upazilas"].map(t=>SB.from(t).select("*").order("name")));G={d:r[0].data||[],z:r[1].data||[],u:r[2].data||[]}}
- U=(await SB.auth.getSession()).data.session?.user||null;ME=null;NC=0;ADM=false;
- if(U){ME=(await SB.from("profiles").select("*").eq("id",U.id).maybeSingle()).data;NC=(await SB.from("notifications").select("id",{count:"exact",head:true}).eq("read",false)).count||0;listen();if(ME?.role==="admin"){const a=await SB.rpc("is_admin");if(a.data===true){ADM=true;await loadAdmin()}}}}
+async function fetchGeo(){const r=await SB.rpc("geo_all");if(r.data&&r.data.d){G=r.data;try{localStorage.setItem("rbgeo",JSON.stringify({t:Date.now(),g:G}))}catch(e){}}}
+async function loadGeo(){if(G.d.length)return;try{const c=JSON.parse(localStorage.getItem("rbgeo")||"null");if(c&&c.g&&c.g.d&&c.g.d.length){G=c.g;if(Date.now()-c.t>864e5)fetchGeo();return}}catch(e){}await fetchGeo()}
+async function refresh(){const gp=loadGeo();U=(await SB.auth.getSession()).data.session?.user||null;ME=null;NC=0;ADM=false;
+ if(U){const r=await SB.rpc("app_boot");if(r.data){ME=r.data.p;NC=r.data.n||0;ADM=r.data.a===true;if(ADM)loadAdmin()}listen();initPush()}
+ await gp}
+let PUSHL=false;
+async function initPush(){const P=window.Capacitor?.Plugins?.PushNotifications;if(!P||!U)return;
+ try{const c=await P.requestPermissions();if(c.receive!=="granted")return;
+  if(!PUSHL){PUSHL=true;await P.createChannel({id:"rb_alerts",name:"জরুরি রক্তের অনুরোধ",description:"রক্তের অনুরোধ ও বার্তা",importance:5,visibility:1,vibration:true});
+   P.addListener("registration",t=>{try{localStorage.setItem("rbpt",t.value)}catch(e){}SB.rpc("save_push_token",{tok:t.value,plat:"android"})});
+   P.addListener("pushNotificationActionPerformed",()=>go("notif"))}
+  await P.register()}catch(e){}}
+function dropPush(){try{const t=localStorage.getItem("rbpt");if(t){localStorage.removeItem("rbpt");return SB.rpc("drop_push_token",{tok:t})}}catch(e){}}
 function listen(){if(CH||!U)return;CH=SB.channel("n"+U.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"user_id=eq."+U.id},p=>{NC++;toast("🔔 "+p.new.title);try{if(Notification.permission==="granted")new Notification(p.new.title,{body:p.new.body})}catch(e){}if(MAIN.includes(tab))go(tab)}).subscribe()}
-function go(t,pop){if(!U&&!["onb","login","reg","splash","newpw"].includes(t))t="onb";if(t==="adm"&&!ADM)t="home";if(U&&["onb","login","reg","splash"].includes(t))t="home";if(!pop&&t!==tab)history.pushState({t},"");if(MAIN.includes(tab))BACK=tab;tab=t;
+function go(t,pop){if(!U&&!["onb","login","reg","splash","newpw"].includes(t))t="onb";if(t==="adm"&&!ADM)t="home";if(t==="adm"&&!VIEW.adm){loadAdmin().then(()=>go("adm",pop));return}if(U&&["onb","login","reg","splash"].includes(t))t="home";if(!pop&&t!==tab)history.pushState({t},"");if(MAIN.includes(tab))BACK=tab;tab=t;
  const T=[["home","🏠","হোম"],["req","🆘","অনুরোধ"],["notif","🔔","নোটিফিকেশন"],["me","👤","প্রোফাইল"]],n=$("#nav");n.style.display=U&&MAIN.includes(t)?"flex":"none";
  n.innerHTML=T.map(x=>`<button class="${x[0]===t?"on":""}" onclick="go('${x[0]}')"><span>${x[1]}</span>${x[2]}${x[0]==="notif"&&NC?`<i>${NC}</i>`:""}</button>`).join("");window.scrollTo(0,0);VIEW[t]()}
 async function chk(){if(ME?.banned){await SB.auth.signOut();U=null;ME=null;CH=null;ADM=false;toast("আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে")}}
-async function boot(){VIEW.splash();await Promise.all([refresh(),new Promise(r=>setTimeout(r,1400))]);await chk();go(U?"home":"onb")}
+async function boot(){VIEW.splash();await Promise.all([refresh(),new Promise(r=>setTimeout(r,700))]);await chk();go(U?"home":"onb")}
 async function after(){await refresh();await chk();go(U?"home":"login")}
 SB.auth.onAuthStateChange(ev=>{if(ev==="PASSWORD_RECOVERY")setTimeout(()=>go("newpw"),2200)});
 
@@ -100,7 +111,7 @@ VIEW.newpw=()=>{$("#nav").style.display="none";$("#app").innerHTML=`<h3>নত�
 async function setPw(){const a=v("np1");if(a.length<8||a!==v("np2"))return toast("৮+ অক্ষর ও দুটি এক হতে হবে");if(ok(await SB.auth.updateUser({password:a}))){toast("পাসওয়ার্ড বদলানো হয়েছে");after()}}
 VIEW.reg=()=>{$("#app").innerHTML=`${hdr("নিবন্ধন করুন","onb")}<div class="seg"><button class="${ROLE==="patient"?"on":""}" onclick="ROLE='patient';VIEW.reg()">রোগী</button><button class="${ROLE==="donor"?"on":""}" onclick="ROLE='donor';VIEW.reg()">ডোনার</button></div>
  <input id="rn" placeholder="নাম লিখুন" autocomplete="name"><input id="re" type="email" placeholder="ইমেইল (পাসওয়ার্ড রিসেটের জন্য)" autocomplete="email"><input id="rp" inputmode="tel" placeholder="মোবাইল নম্বর (01XXXXXXXXX)" autocomplete="tel">${ROLE==="donor"?`<label>রক্তের গ্রুপ</label>${chips("rb")}`:""}<label>ঠিকানা</label>${geoHTML("r")}<input id="ra" placeholder="গ্রাম/মহল্লা/এলাকা">${pwf("rw","পাসওয়ার্ড (৮+ অক্ষর)","new-password")}${pwf("rw2","পাসওয়ার্ড নিশ্চিত করুন","new-password")}
- <button class="btn" onclick="reg()">নিবন্ধন করুন</button><p style="text-align:center">অ্যাকাউন্ট আছে? <a href="#" onclick="go('login');return false" style="color:var(--rd)">লগইন করুন</a></p>`;if(ROLE==="donor")wireChips("rb");wireGeo("r",0)};
+ <button class="btn" onclick="reg()">নিবন্ধন করুন</button><p class="mu" style="text-align:center">নিবন্ধন করে আপনি <a href="privacy.html" target="_blank" style="color:var(--rd)">গোপনীয়তা নীতিতে</a> সম্মত হচ্ছেন।</p><p style="text-align:center">অ্যাকাউন্ট আছে? <a href="#" onclick="go('login');return false" style="color:var(--rd)">লগইন করুন</a></p>`;if(ROLE==="donor")wireChips("rb");wireGeo("r",0)};
 async function reg(){const n=v("rn").trim(),e=v("re").trim().toLowerCase(),p=np(v("rp")),w=v("rw"),don=ROLE==="donor";if(!n||!p||!/^\S+@\S+\.\S+$/.test(e))return toast("নাম, ইমেইল ও সঠিক মোবাইল নম্বর দিন");if(w.length<8||w!==v("rw2"))return toast("পাসওয়ার্ড ৮+ অক্ষর ও দুটি এক হতে হবে");if(don&&!chip("rb"))return toast("রক্তের গ্রুপ বাছুন");
  const r=await SB.auth.signUp({email:e,password:w,options:{data:{name:n,phone:p,blood:chip("rb")||"",district_id:v("rz"),upazila_id:v("ru"),area:v("ra").trim(),is_donor:don}}});
  if(r.error)return toast(/Database error/i.test(r.error.message)?"এই মোবাইল নম্বর আগে ব্যবহৃত বা তথ্য সঠিক নয়":r.error.message);
@@ -142,15 +153,15 @@ VIEW.aware=()=>{$("#app").innerHTML=hdr("সচেতনতা","home")+`<div cl
 VIEW.svc=async()=>{const r=await SB.from("emergency_numbers").select("*").eq("active",true).order("sort");
  $("#app").innerHTML=hdr("জরুরি নম্বর","home")+(r.data||[]).map(x=>`<div class="card row"><div class="f1"><b>${esc(x.number)}</b><div class="mu">${esc(x.label)}</div></div><a class="btn s g" href="tel:${esc(x.number)}">কল</a></div>`).join("")+`<div class="card"><b>📍 কাছের সেবা (গুগল ম্যাপ)</b>${[["hospital","🏥 হাসপাতাল"],["fire station","🚒 ফায়ার স্টেশন"],["ambulance service","🚑 অ্যাম্বুলেন্স"],["blood bank","🩸 ব্লাড ব্যাংক"],["police station","🚓 থানা"]].map(x=>`<button class="btn" onclick="near('${x[0]}')">${x[1]}</button>`).join("")}</div>`};
 function near(q){const o=c=>window.open("https://www.google.com/maps/search/"+encodeURIComponent(q)+(c?`/@${c.latitude},${c.longitude},14z`:""),"_blank");navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>o(p.coords),()=>o(),{timeout:6000}):o()}
-VIEW.donate=async()=>{const[m,f]=await Promise.all([SB.from("payment_methods").select("*").eq("active",true).order("sort"),SB.from("fund_total").select("total").single()]);const M=m.data||[];
- $("#app").innerHTML=hdr("আর্থিক সহায়তা","home")+`<div class="card"><b>💝 সার্ভার ও ডাটাবেস খরচে সহায়তা</b><p class="mu">অ্যাপ সবার জন্য বিনামূল্যে। আপনার দান শুধু সার্ভার ও রক্ষণাবেক্ষণে ব্যয় হবে।</p>সংগৃহীত: <b>৳${f.data?.total??0}</b></div>${M.map(x=>`<div class="card row"><div class="f1"><b>${esc(x.name)}</b><div>${esc(x.number)}</div><div class="mu">${esc(x.instructions||"")}</div></div><button class="btn s" onclick="navigator.clipboard?.writeText('${esc(x.number)}');toast('কপি হয়েছে')">কপি</button></div>`).join("")||'<div class="card empty">শীঘ্রই চালু হবে।</div>'}
+VIEW.donate=async()=>{const m=await SB.from("payment_methods").select("*").eq("active",true).order("sort"),M=m.data||[];
+ $("#app").innerHTML=hdr("আর্থিক সহায়তা","home")+`<div class="card"><b>💝 সার্ভার ও ডাটাবেস খরচে সহায়তা</b><p class="mu">অ্যাপ সবার জন্য বিনামূল্যে। আপনার দান শুধু সার্ভার ও রক্ষণাবেক্ষণে ব্যয় হবে।</p></div>${M.map(x=>`<div class="card row"><div class="f1"><b>${esc(x.name)}</b><div>${esc(x.number)}</div><div class="mu">${esc(x.instructions||"")}</div></div><button class="btn s" onclick="navigator.clipboard?.writeText('${esc(x.number)}');toast('কপি হয়েছে')">কপি</button></div>`).join("")||'<div class="card empty">শীঘ্রই চালু হবে।</div>'}
  ${M.length?`<div class="card"><b>পাঠানোর পর তথ্য দিন</b><select id="dm">${M.map(x=>`<option>${esc(x.name)}</option>`).join("")}</select><input id="da" type="number" placeholder="পরিমাণ (৳)"><input id="dt" placeholder="ট্রানজ্যাকশন আইডি (TrxID)"><button class="btn g" onclick="sendDon()">জমা দিন</button></div>`:""}`};
 async function sendDon(){if(!v("da")||!v("dt").trim())return toast("পরিমাণ ও TrxID দিন");if(ok(await SB.from("donations").insert({name:ME?.name,amount:+v("da"),method:v("dm"),trx_id:v("dt").trim()})))toast("ধন্যবাদ! অ্যাডমিন যাচাই করবেন")}
 
 VIEW.me=()=>{const m=ME||{},S={none:["যাচাই হয়নি","o"],pending:["যাচাইয়ের অপেক্ষায়","o"],verified:["✔ যাচাইকৃত","g"],rejected:["বাতিল, আবার জমা দিন","o"]}[m.kyc||"none"],mi=(a,t)=>`<div class="mi" onclick="${a}"><span>${t}</span><span>›</span></div>`;
  $("#app").innerHTML=`<div class="card row"><div class="av l" data-av="${U.id}" style="margin:0;width:64px;height:64px;font-size:1.6rem">${esc((m.name||"?")[0])}</div><div class="f1"><b>${esc(m.name||"নাম দিন")}</b><div class="mu">${esc(m.phone||U.email)}</div>${m.is_donor?`<span class="tg ${S[1]}">${S[0]}</span>`:'<span class="tg v">রোগী</span>'}</div></div>
- <div class="card">${mi("go('edit')","👤 আমার প্রোফাইল")}${m.is_donor&&m.kyc!=="verified"&&m.kyc!=="pending"?mi("go('kyc')","🛡️ ফেস ভেরিফিকেশন"):""}${mi("go('mine')","📝 আমার অনুরোধ")}${mi("go('donate')","💝 আর্থিক সহায়তা")}${mi("go('aware')","💡 সচেতনতা")}${ADM?mi("go('adm')","🛡️ অ্যাডমিন প্যানেল"):""}${mi("toast('রক্তবন্ধু – রক্তের বন্ধনে গড়ি মানবতার বন্ধন')","ℹ️ অ্যাপ সম্পর্কে")}</div>
- <button class="btn m" onclick="SB.auth.signOut().then(()=>{CH=null;after()})">লগআউট</button><button class="btn o" onclick="delAcc()">অ্যাকাউন্ট ও তথ্য মুছুন</button>`;loadAv([{id:U.id,avatar:m.avatar}])};
+ <div class="card">${mi("go('edit')","👤 আমার প্রোফাইল")}${m.is_donor&&m.kyc!=="verified"&&m.kyc!=="pending"?mi("go('kyc')","🛡️ ফেস ভেরিফিকেশন"):""}${mi("go('mine')","📝 আমার অনুরোধ")}${mi("go('donate')","💝 আর্থিক সহায়তা")}${mi("go('aware')","💡 সচেতনতা")}${mi("window.open('privacy.html','_blank')","🔒 গোপনীয়তা নীতি")}${ADM?mi("go('adm')","🛡️ অ্যাডমিন প্যানেল"):""}${mi("toast('রক্তবন্ধু – রক্তের বন্ধনে গড়ি মানবতার বন্ধন')","ℹ️ অ্যাপ সম্পর্কে")}</div>
+ <button class="btn m" onclick="Promise.resolve(dropPush()).then(()=>SB.auth.signOut()).then(()=>{CH=null;after()})">লগআউট</button><button class="btn o" onclick="delAcc()">অ্যাকাউন্ট ও তথ্য মুছুন</button>`;loadAv([{id:U.id,avatar:m.avatar}])};
 VIEW.edit=()=>{const m=ME||{};$("#app").innerHTML=`${hdr("আমার প্রোফাইল","me")}<div class="card" style="text-align:center">${avh(U.id,m.name,"l")}<input id="af" type="file" accept="image/*" style="display:none" onchange="upAv(this)"><button class="btn s o" onclick="$('#af').click()">📷 ছবি আপলোড/পরিবর্তন</button><p class="mu">নিজের স্পষ্ট মুখের ছবি দিন। অন্য ব্যবহারকারীরা লগইন করলে দেখতে পাবে।</p></div><div class="card"><input id="mn" placeholder="নাম" value="${esc(m.name)}"><input id="mp" inputmode="tel" placeholder="মোবাইল নম্বর" value="${esc(m.phone)}"><label>রক্তের গ্রুপ</label>${chips("mb")}<label>ঠিকানা</label>${geoHTML("m")}<input id="ma" placeholder="গ্রাম/মহল্লা/এলাকা" value="${esc(m.area)}"><label>সর্বশেষ রক্তদানের তারিখ</label><input id="ml" type="date" value="${m.last_donated||""}"><label style="display:flex;gap:8px;align-items:center"><input id="mh" type="checkbox" style="width:auto;margin:0" ${m.hide_phone?"checked":""}> আমার নম্বর গোপন রাখুন</label><button class="btn" onclick="saveMe()">সংরক্ষণ</button></div>`;
  wireChips("mb");setChip("mb",m.blood);wireGeo("m",0);const z=G.z.find(x=>x.id==m.district_id);if(z){$("#md").value=z.division_id;$("#md").onchange();$("#mz").value=z.id;$("#mz").onchange();if(m.upazila_id)$("#mu").value=m.upazila_id}loadAv([{id:U.id,avatar:m.avatar}])};
 async function saveMe(){const p={name:v("mn").trim(),phone:np(v("mp")),blood:chip("mb")||null,district_id:+v("mz")||null,upazila_id:+v("mu")||null,area:v("ma").trim(),last_donated:v("ml")||null,hide_phone:$("#mh").checked};
@@ -187,9 +198,9 @@ window.addEventListener("popstate",e=>{const t=e.state&&e.state.t;
 if(window.Capacitor?.Plugins?.App)Capacitor.Plugins.App.addListener("backButton",()=>{if(ROOT()){if(exitTap())Capacitor.Plugins.App.exitApp()}else go(MAIN.includes(tab)?"home":BACK)});
 const BUILD="__BUILD__";
 async function doUpdate(){try{await Promise.all((await caches.keys()).map(k=>caches.delete(k)));const r=await navigator.serviceWorker?.getRegistration();if(r)await r.unregister()}catch(e){}location.reload()}
-async function chkUpd(){if(BUILD==="__BUILD__"||$("#upd"))return;try{const j=await(await fetch("version.json?_="+Date.now(),{cache:"no-store"})).json();
- if(j.v&&j.v!==BUILD){const d=document.createElement("div");d.id="upd";d.style.cssText="position:fixed;top:0;left:0;right:0;z-index:99;background:#0f8a55;color:#fff;text-align:center;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 10px;font-weight:700;cursor:pointer";d.textContent="🔄 নতুন আপডেট এসেছে, আপডেট করতে এখানে চাপুন";d.onclick=doUpdate;document.body.appendChild(d)}}catch(e){}}
-setInterval(chkUpd,600000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)chkUpd()});setTimeout(chkUpd,4000);
+async function chkUpd(auto){if(BUILD==="__BUILD__"||$("#upd"))return;try{const j=await(await fetch("version.json?_="+Date.now(),{cache:"no-store"})).json();
+ if(j.v&&j.v!==BUILD){if(auto&&["home","notif"].includes(tab)){toast("🔄 আপডেট হচ্ছে…");setTimeout(doUpdate,600);return}const d=document.createElement("div");d.id="upd";d.style.cssText="position:fixed;top:0;left:0;right:0;z-index:99;background:#0f8a55;color:#fff;text-align:center;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 10px;font-weight:700;cursor:pointer";d.textContent="🔄 নতুন আপডেট এসেছে, আপডেট করতে এখানে চাপুন";d.onclick=doUpdate;document.body.appendChild(d)}}catch(e){}}
+setInterval(()=>chkUpd(false),600000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)chkUpd(true)});setTimeout(()=>chkUpd(true),3000);
 boot();
 </script>
 </body>

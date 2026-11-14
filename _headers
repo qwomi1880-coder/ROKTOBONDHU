@@ -4,6 +4,14 @@
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
   Permissions-Policy: geolocation=(self), microphone=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://szgyfrktlgjcccgchjsx.supabase.co; connect-src 'self' https://szgyfrktlgjcccgchjsx.supabase.co wss://szgyfrktlgjcccgchjsx.supabase.co; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://szgyfrktlgjcccgchjsx.supabase.co; connect-src 'self' https://szgyfrktlgjcccgchjsx.supabase.co wss://szgyfrktlgjcccgchjsx.supabase.co; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
 /sw.js
   Cache-Control: no-cache
+/supabase.js
+  Cache-Control: public, max-age=604800
+/icon-192.png
+  Cache-Control: public, max-age=604800
+/icon-512.png
+  Cache-Control: public, max-age=604800
+/apple-touch-icon.png
+  Cache-Control: public, max-age=604800
