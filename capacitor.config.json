@@ -1,0 +1,8 @@
+{
+  "appId": "bd.roktobondhu.app",
+  "appName": "রক্তবন্ধু",
+  "webDir": "www",
+  "loggingBehavior": "none",
+  "server": { "androidScheme": "https" },
+  "android": { "webContentsDebuggingEnabled": false, "allowMixedContent": false }
+}

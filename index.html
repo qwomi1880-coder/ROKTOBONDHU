@@ -15,7 +15,7 @@
 :root{--bg:#fbf4f4;--sf:#fff;--ink:#241a1c;--mu:#7a6e70;--ln:#efe3e4;--rd:#c8102e;--rd2:#8f0b20;--gn:#0f8a55;--tn:#fde8eb;--sh:0 2px 10px rgba(120,20,40,.08)}
 @media(prefers-color-scheme:dark){:root{--bg:#150f10;--sf:#211a1b;--ink:#f6eeee;--mu:#ae9fa1;--ln:#3a2e30;--rd:#ef4a62;--tn:#3b1b21;--gn:#3ecf8e;--sh:none}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;line-height:1.55;max-width:560px;margin-inline:auto;padding:env(safe-area-inset-top) 0 90px;min-height:100vh}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;line-height:1.55;max-width:560px;margin-inline:auto;padding:max(env(safe-area-inset-top,0px),var(--safe-area-inset-top,0px)) 0 90px;min-height:100vh}
 main{padding:0 16px}.card{background:var(--sf);border-radius:16px;padding:14px;margin:10px 0;box-shadow:var(--sh);border:1px solid var(--ln)}
 .sp{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}.sp h1{margin:6px 0 0;font-size:2.4rem;color:var(--rd)}.sp small{letter-spacing:2px;font-weight:700}
 .ld{width:26px;height:26px;border:3px solid var(--tn);border-top-color:var(--rd);border-radius:50%;animation:r 1s linear infinite;margin-top:30px}@keyframes r{to{transform:rotate(360deg)}}
@@ -38,7 +38,7 @@ select,input,textarea{width:100%;font:inherit;padding:12px;border-radius:12px;bo
 .pv{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.pv img{width:100%;height:90px;object-fit:cover;border-radius:8px}
 .empty{text-align:center;color:var(--mu);padding:24px 8px}.pw{position:relative}.pw span{position:absolute;right:12px;top:10px;cursor:pointer;font-size:1.2rem}h3{margin:14px 0 4px}
 .mi{display:flex;justify-content:space-between;padding:13px 4px;border-bottom:1px solid var(--ln);cursor:pointer}
-nav{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:auto;background:var(--sf);border-top:1px solid var(--ln);display:none;padding-bottom:env(safe-area-inset-bottom)}
+nav{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:auto;background:var(--sf);border-top:1px solid var(--ln);display:none;padding-bottom:max(env(safe-area-inset-bottom,0px),var(--safe-area-inset-bottom,0px))}
 nav button{flex:1;font:inherit;font-size:.72rem;background:none;border:0;color:var(--mu);padding:8px 0;cursor:pointer;position:relative}nav button span{display:block;font-size:1.3rem}
 nav button.on{color:var(--rd);font-weight:700}nav button.on::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;background:var(--rd);border-radius:0 0 4px 4px}
 nav i{position:absolute;top:2px;right:26%;background:var(--rd);color:#fff;font-style:normal;font-size:.65rem;border-radius:99px;padding:0 5px}
@@ -95,7 +95,7 @@ const pwf=(id,ph,ac)=>`<div class="pw"><input id="${id}" type="password" placeho
 function tgp(id,el){const i=$("#"+id);i.type=i.type==="password"?"text":"password";el.textContent=i.type==="password"?"👁":"🙈"}
 VIEW.login=()=>{$("#app").innerHTML=`<div class="sp" style="min-height:auto;padding-top:24px">${logo(54)}<b style="color:var(--rd);font-size:1.5rem">রক্তবন্ধু</b></div><h3 style="text-align:center">লগইন করুন</h3><input id="lu" type="email" placeholder="ইমেইল" autocomplete="email">${pwf("lp","পাসওয়ার্ড","current-password")}<button class="btn" onclick="login()">লগইন</button><p style="text-align:center"><a href="#" onclick="forgot();return false" style="color:var(--rd)">পাসওয়ার্ড ভুলে গেছেন?</a></p><p style="text-align:center">নতুন অ্যাকাউন্ট? <a href="#" onclick="go('reg');return false" style="color:var(--rd)">রেজিস্টার করুন</a></p>`};
 async function login(){if(ok(await SB.auth.signInWithPassword({email:v("lu").trim().toLowerCase(),password:v("lp")})))after()}
-async function forgot(){const e=prompt("আপনার ইমেইল লিখুন");if(!e)return;if(ok(await SB.auth.resetPasswordForEmail(e.trim().toLowerCase(),{redirectTo:location.origin})))toast("ইমেইলে রিসেট লিংক পাঠানো হয়েছে, ইনবক্স/স্প্যাম দেখুন")}
+async function forgot(){const base=window.RB.site||(window.Capacitor?null:location.origin);if(!base)return toast("config.js-এ site ঠিকানা বসান");const e=prompt("আপনার ইমেইল লিখুন");if(!e)return;if(ok(await SB.auth.resetPasswordForEmail(e.trim().toLowerCase(),{redirectTo:base})))toast("ইমেইলে রিসেট লিংক পাঠানো হয়েছে, ইনবক্স/স্প্যাম দেখুন")}
 VIEW.newpw=()=>{$("#nav").style.display="none";$("#app").innerHTML=`<h3>নতুন পাসওয়ার্ড দিন</h3>${pwf("np1","নতুন পাসওয়ার্ড (৮+ অক্ষর)","new-password")}${pwf("np2","আবার লিখুন","new-password")}<button class="btn" onclick="setPw()">পাসওয়ার্ড বদলান</button>`};
 async function setPw(){const a=v("np1");if(a.length<8||a!==v("np2"))return toast("৮+ অক্ষর ও দুটি এক হতে হবে");if(ok(await SB.auth.updateUser({password:a}))){toast("পাসওয়ার্ড বদলানো হয়েছে");after()}}
 VIEW.reg=()=>{$("#app").innerHTML=`${hdr("নিবন্ধন করুন","onb")}<div class="seg"><button class="${ROLE==="patient"?"on":""}" onclick="ROLE='patient';VIEW.reg()">রোগী</button><button class="${ROLE==="donor"?"on":""}" onclick="ROLE='donor';VIEW.reg()">ডোনার</button></div>
@@ -170,14 +170,15 @@ async function delAcc(){if(confirm("আপনার প্রোফাইল ও
 
 let DP=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();DP=e;if(tab==="home")go("home")});
 window.addEventListener("appinstalled",()=>{DP=null;toast("অ্যাপ ইনস্টল হয়েছে");if(tab==="home")go("home")});
-const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const standalone=()=>!!window.Capacitor||matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
 const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
 function instCard(){if(standalone())return "";
  if(DP)return `<div class="card row"><div class="f1"><b>📲 ফোনে অ্যাপ হিসেবে ইনস্টল করুন</b><div class="mu">হোম স্ক্রিন থেকে এক ট্যাপে খুলুন</div></div><button class="btn s" onclick="inst()">ইনস্টল</button></div>`;
  if(isIOS())return `<div class="card"><b>📲 আইফোনে ইনস্টল করুন</b><div class="mu">Safari-তে খুলে নিচের <b>শেয়ার ⬆️</b> বাটনে চাপুন → <b>Add to Home Screen</b> → <b>Add</b>।</div></div>`;
  return `<div class="card"><b>📲 অ্যাপ ইনস্টল করুন</b><div class="mu">Chrome-এর ⋮ মেনু → <b>Install app</b> বা <b>Add to Home screen</b>।</div></div>`}
 async function inst(){if(!DP)return;DP.prompt();await DP.userChoice;DP=null;go("home")}
-if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+if("serviceWorker"in navigator&&!window.Capacitor)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+if(window.Capacitor?.Plugins?.App)Capacitor.Plugins.App.addListener("backButton",()=>{if(tab==="home"||(!U&&["onb","login"].includes(tab)))Capacitor.Plugins.App.exitApp();else go(MAIN.includes(tab)?"home":BACK)});
 boot();
 </script>
 </body>
