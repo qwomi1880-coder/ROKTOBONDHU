@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "642369878874",
+    "project_id": "roktobandhu-93c2b",
+    "storage_bucket": "roktobandhu-93c2b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642369878874:android:0609f007ed2d59069e1163",
+        "android_client_info": {
+          "package_name": "bd.roktobondhu.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3Z6NzeMhgxBA28ca8HBeoBpQR0n0vJ0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
