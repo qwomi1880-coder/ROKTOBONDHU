@@ -72,7 +72,7 @@ function wireGeo(p,all){const d=$("#"+p+"d"),z=$("#"+p+"z"),u=$("#"+p+"u"),o=(a,
 const shrink=f=>new Promise(r=>{const fr=new FileReader();fr.onload=()=>{const i=new Image();i.onload=()=>{const s=Math.min(1,1000/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(r,"image/jpeg",.7)};i.src=fr.result};fr.readAsDataURL(f)});
 
 let ADM=false,ADL=null,KB=null,STR=null;
-function loadAdmin(){return ADL||(ADL=new Promise(r=>{const e=document.createElement("script");e.src="admin.js?v=3";e.onload=r;e.onerror=r;document.head.appendChild(e)}))}
+function loadAdmin(){return ADL||(ADL=new Promise(r=>{const e=document.createElement("script");e.src="admin.js?v=4";e.onload=r;e.onerror=r;document.head.appendChild(e)}))}
 const avh=(id,n,c)=>`<div class="av ${c||""}" data-av="${id}">${esc((n||"?")[0])}</div>`;
 async function loadAv(list){const ids=list.filter(x=>x.avatar).map(x=>x.id);if(!ids.length)return;const r=await SB.storage.from("avatars").createSignedUrls(ids.map(i=>i+"/a.jpg"),3600);
  (r.data||[]).forEach((u,i)=>{if(u.signedUrl)document.querySelectorAll(`[data-av="${ids[i]}"]`).forEach(e=>e.innerHTML=`<img src="${u.signedUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`)})}
@@ -81,7 +81,7 @@ async function refresh(){if(!G.d.length){const r=await Promise.all(["divisions",
  U=(await SB.auth.getSession()).data.session?.user||null;ME=null;NC=0;ADM=false;
  if(U){ME=(await SB.from("profiles").select("*").eq("id",U.id).maybeSingle()).data;NC=(await SB.from("notifications").select("id",{count:"exact",head:true}).eq("read",false)).count||0;listen();if(ME?.role==="admin"){const a=await SB.rpc("is_admin");if(a.data===true){ADM=true;await loadAdmin()}}}}
 function listen(){if(CH||!U)return;CH=SB.channel("n"+U.id).on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"user_id=eq."+U.id},p=>{NC++;toast("🔔 "+p.new.title);try{if(Notification.permission==="granted")new Notification(p.new.title,{body:p.new.body})}catch(e){}if(MAIN.includes(tab))go(tab)}).subscribe()}
-function go(t){if(!U&&!["onb","login","reg","splash","newpw"].includes(t))t="onb";if(t==="adm"&&!ADM)t="home";if(MAIN.includes(tab))BACK=tab;tab=t;
+function go(t,pop){if(!U&&!["onb","login","reg","splash","newpw"].includes(t))t="onb";if(t==="adm"&&!ADM)t="home";if(U&&["onb","login","reg","splash"].includes(t))t="home";if(!pop&&t!==tab)history.pushState({t},"");if(MAIN.includes(tab))BACK=tab;tab=t;
  const T=[["home","🏠","হোম"],["req","🆘","অনুরোধ"],["notif","🔔","নোটিফিকেশন"],["me","👤","প্রোফাইল"]],n=$("#nav");n.style.display=U&&MAIN.includes(t)?"flex":"none";
  n.innerHTML=T.map(x=>`<button class="${x[0]===t?"on":""}" onclick="go('${x[0]}')"><span>${x[1]}</span>${x[2]}${x[0]==="notif"&&NC?`<i>${NC}</i>`:""}</button>`).join("");window.scrollTo(0,0);VIEW[t]()}
 async function chk(){if(ME?.banned){await SB.auth.signOut();U=null;ME=null;CH=null;ADM=false;toast("আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে")}}
@@ -178,7 +178,13 @@ function instCard(){if(standalone())return "";
  return `<div class="card"><b>📲 অ্যাপ ইনস্টল করুন</b><div class="mu">Chrome-এর ⋮ মেনু → <b>Install app</b> বা <b>Add to Home screen</b>।</div></div>`}
 async function inst(){if(!DP)return;DP.prompt();await DP.userChoice;DP=null;go("home")}
 if("serviceWorker"in navigator&&!window.Capacitor)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
-if(window.Capacitor?.Plugins?.App)Capacitor.Plugins.App.addListener("backButton",()=>{if(tab==="home"||(!U&&["onb","login"].includes(tab)))Capacitor.Plugins.App.exitApp();else go(MAIN.includes(tab)?"home":BACK)});
+const ROOT=()=>tab==="home"||(!U&&["onb","login","splash"].includes(tab));let LB=0;
+function exitTap(){const n=Date.now();if(n-LB<2000)return true;LB=n;toast("আবার চাপলে অ্যাপ বন্ধ হবে");return false}
+history.replaceState({t:"root"},"");
+window.addEventListener("popstate",e=>{if(window.Capacitor)return;const t=e.state&&e.state.t;
+ if(!t||t==="root"||(U&&["onb","login","reg","splash","newpw"].includes(t))){if(ROOT()){if(exitTap()){history.back();return}history.pushState({t:tab},"");return}go("home",true);history.pushState({t:"home"},"");return}
+ go(t,true)});
+if(window.Capacitor?.Plugins?.App)Capacitor.Plugins.App.addListener("backButton",()=>{if(ROOT()){if(exitTap())Capacitor.Plugins.App.exitApp()}else go(MAIN.includes(tab)?"home":BACK)});
 boot();
 </script>
 </body>
